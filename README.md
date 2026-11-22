@@ -12,8 +12,6 @@ Prototipo en línea: https://jfvalderramabosque.github.io/campushogar/
 - Alejandra Valenttina Ramírez Chacón
 - Juan Felipe Valderrama Peñaloza
 
-Docente: Ing. Luis Alejandro López
-
  Qué hace
 
 Estudiante
