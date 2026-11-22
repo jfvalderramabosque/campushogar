@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CampusHogar</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Concepto: marco de teléfono centrado con la app en su interior. Paleta verde bosque + coral, sobre papel cálido.
+   Tipografía: Plus Jakarta Sans. Tema único (claro), con todos los colores definidos como tokens. */
+:root{--page:#F1EEE7;--scr:#FBF9F5;--card:#fff;--ink:#10302B;--mut:#5D6A65;--line:#E6E1D6;--btn:#0E4A43;--deep:#0E4A43;--soft:#E3EEE8;--frame:#DCD6C8;--acc:#EE8B5A;--onacc:#3B1A0A;--okb:#DCEBE4;--ok:#25694F;--wb:#FBE7D6;--w:#A24A17;--bb:#F8DAD6;--b:#A3271E;--bub:#EFEBE2;--star:#D9961A;--pri:#0E4A43;color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.45 'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;display:flex;flex-direction:column;align-items:center;padding-block:14px 28px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+.top{width:100%;max-width:410px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.top b{font-weight:800;font-size:16px}
+.top button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:8px 14px;font:inherit;font-weight:600;font-size:13px;cursor:pointer}
+.phone{position:relative;width:390px;height:780px;max-width:100%;border:10px solid var(--frame);border-radius:46px;box-shadow:0 18px 50px #3b32201f;background:var(--scr);overflow:hidden;display:flex;flex-direction:column}
+@media(max-width:480px){body{padding-block:8px 0;padding-left:0;padding-right:0}.phone{width:100%;height:calc(100dvh - 8px);border-width:0;border-radius:0}}
+.sb{display:flex;justify-content:space-between;align-items:center;padding:10px 22px 2px;font-weight:700;font-size:13px;min-height:30px}
+.bellb{position:relative;background:none;border:0;color:var(--ink);padding:2px 4px;cursor:pointer;display:flex}.bellb .n{position:absolute;top:-4px;right:-5px;background:var(--acc);color:var(--onacc);border-radius:99px;font-size:10px;font-weight:800;min-width:16px;height:16px;display:grid;place-items:center;padding:0 3px}
+.scr{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 18px 28px}.scr.dark{background:var(--soft)}
+nav{display:none;border-top:1px solid var(--line);background:var(--scr);padding:6px 2px 10px}
+nav button{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;color:var(--mut);font:inherit;font-size:10.5px;font-weight:600;padding:6px 0;cursor:pointer}nav button.on{color:var(--pri)}
+nav .n{position:absolute;top:2px;left:calc(50% + 6px);background:var(--acc);color:var(--onacc);border-radius:99px;font-size:10px;font-weight:800;min-width:16px;height:16px;display:grid;place-items:center;padding:0 3px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.eb{font-size:11.5px;letter-spacing:.14em;color:var(--mut);font-weight:600;margin-top:6px;text-transform:uppercase}
+h1{font-size:25px;line-height:1.15;margin:4px 0 10px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}h2{font-size:18px;margin:18px 0 6px;font-weight:700}h3{font-size:15px;margin:14px 0 4px}
+p{margin:6px 0}
+.banner{background:var(--soft);color:var(--ink);border:1px solid #CFE0D8;border-radius:20px;padding:14px 16px;display:flex;gap:12px;align-items:center;cursor:pointer;margin:10px 0}.banner small{opacity:.8;display:block;font-size:12px}.banner b{font-size:16px}.banner .g{flex:1;min-width:0}
+.chips{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}.chip{padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:600;font-size:13.5px;cursor:pointer}.chip.on{background:var(--btn);color:#fff;border-color:var(--btn)}.chip:disabled{opacity:.4;cursor:default}
+.hs{display:flex;gap:8px;overflow-x:auto;margin:10px -18px;padding:0 18px 4px;scrollbar-width:none}.hs::-webkit-scrollbar{display:none}.hs .chip{flex:none}
+.lc{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;margin:14px 0;cursor:pointer}
+.ph{position:relative;height:158px;background:var(--bub);overflow:hidden}.ph svg{width:100%;height:100%;display:block}
+.ph .ov{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;max-width:75%}
+.heart{position:absolute;right:10px;top:10px;width:36px;height:36px;border-radius:50%;border:0;background:#fffe;color:var(--ink);display:grid;place-items:center;cursor:pointer}.heart.on{color:#D2452F}.heart.on svg{fill:#D2452F}
+.lb{padding:11px 14px 13px;display:flex;flex-direction:column;gap:3px}.lb b{font-size:16px}.mut{color:var(--mut);font-size:13px}.price{font-weight:800;font-size:16px}
+.feat{display:flex;gap:12px;flex-wrap:wrap;color:var(--mut);font-size:12.5px;margin-top:2px}.feat span{display:flex;align-items:center;gap:4px}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:8px;font-size:11.5px;font-weight:700;width:fit-content}.ok{background:var(--okb);color:var(--ok)}.warn{background:var(--wb);color:var(--w)}.bad{background:var(--bb);color:var(--b)}.neu{background:var(--bub);color:var(--ink)}.on-img{background:#fffef;box-shadow:0 1px 4px #0002}
+.star{color:var(--star);display:inline-flex;align-items:center;gap:3px;font-weight:700;font-size:13px}.star svg{fill:var(--star);stroke:var(--star)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;margin:12px 0}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.row>*{min-width:0}
+.btn{width:100%;padding:14px;border-radius:16px;border:0;background:var(--btn);color:#fff;font:inherit;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}.btn.acc{background:var(--acc);color:var(--onacc)}.btn.sec{background:transparent;color:var(--ink);border:1.5px solid var(--line)}.btn.dng{background:var(--bb);color:var(--b)}.btn:disabled{opacity:.45;cursor:default}
+.two{display:flex;gap:10px;margin-top:12px}.two .btn{padding:13px}
+.back{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;flex:none}
+.hdr{display:flex;align-items:center;gap:12px;margin:2px 0 10px}.hdr b{font-size:17px;flex:1}
+label{display:block;font-weight:600;font-size:13px;margin:12px 0 5px}
+input[type=text],input[type=password],input[type=number],input[type=date],select,textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font:inherit}textarea{resize:vertical;min-height:84px}input[type=range]{width:100%;accent-color:var(--acc)}
+.seg{display:flex;background:var(--bub);border-radius:14px;padding:4px;margin:10px 0}.seg button{flex:1;padding:10px;border:0;border-radius:11px;background:none;color:var(--mut);font:inherit;font-weight:700;cursor:pointer;font-size:13.5px}.seg button.on{background:var(--card);color:var(--ink)}
+.bar{height:7px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--acc)}
+.vr{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin:10px 0}.vr>div{flex:1;min-width:0}.dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--bub);color:var(--mut);flex:none}.dot.on{background:var(--okb);color:var(--ok)}
+.sm{padding:8px 14px;border-radius:12px;border:1.5px solid var(--deep);background:none;color:var(--ink);font:inherit;font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}.sm:disabled{opacity:.5}.sm.fill{background:var(--deep);color:#fff}.sm.dng{border-color:var(--b);color:var(--b)}
+.big{font-size:44px;font-weight:800;line-height:1}
+.msgs{display:flex;flex-direction:column;gap:7px;margin:12px 0;min-height:200px}.b{max-width:80%;padding:9px 13px;border-radius:18px;background:var(--bub);white-space:pre-wrap;overflow-wrap:anywhere}.b.me{align-self:flex-end;background:#FBE3D3}.b.sys{align-self:center;background:var(--wb);color:var(--w);font-size:12.5px;max-width:92%;text-align:center}.b small{display:block;color:var(--mut);font-size:10.5px;margin-top:2px}.typ{color:var(--mut);font-size:12.5px;align-self:flex-start;padding-left:6px}
+.qc{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px}.qc button{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:13.5px}td,th{padding:7px 2px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.gal{position:relative;height:236px;margin:-8px -18px 0;background:var(--bub)}.gal svg{width:100%;height:100%;display:block}
+.gal .gb{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:0;background:#fffd;color:var(--ink);display:grid;place-items:center;cursor:pointer}.gal .gb.l{left:10px}.gal .gb.r{right:10px}
+.gal .top2{position:absolute;left:14px;right:14px;top:12px;display:flex;justify-content:space-between}
+.gal .cnt{position:absolute;right:12px;bottom:12px;background:#10302Bcc;color:#fff;border-radius:99px;font-size:12px;font-weight:700;padding:3px 10px}
+.thumbs{display:flex;gap:6px;margin:8px 0 0;overflow-x:auto}.thumbs button{flex:none;width:64px;height:44px;border-radius:10px;overflow:hidden;border:2px solid transparent;padding:0;background:none;cursor:pointer}.thumbs button.on{border-color:var(--acc)}.thumbs svg{width:100%;height:100%;display:block}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.ft{background:var(--bub);border-radius:14px;padding:10px;text-align:center;font-size:12.5px}.ft b{display:block;font-size:15px}
+.ul{margin:6px 0;padding-left:18px}.ul li{margin:3px 0}
+.stars{display:flex;gap:6px}.stars button{flex:1;padding:10px 0;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--mut);cursor:pointer;display:grid;place-items:center}.stars button.on{background:#FBF0D5;border-color:var(--star);color:var(--star)}.stars button.on svg{fill:var(--star)}
+.tl{list-style:none;margin:8px 0;padding:0}.tl li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;color:var(--mut);font-size:13.5px}.tl li.done{color:var(--ink)}.tl li .dot{width:24px;height:24px}
+.tg{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.sw{appearance:none;width:44px;height:26px;border-radius:99px;background:var(--line);position:relative;cursor:pointer;flex:none;border:0}.sw::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .15s}.sw:checked{background:var(--ok)}.sw:checked::after{left:21px}
+.fab2{position:sticky;bottom:0;margin:14px -18px -28px;padding:12px 18px 18px;background:linear-gradient(180deg,#fbf9f500,var(--scr) 30%)}
+.tr{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;margin:10px 0;cursor:pointer}.tr .th{width:52px;height:52px;border-radius:14px;overflow:hidden;flex:none}.tr .th svg{width:100%;height:100%;display:block}.tr>div:nth-child(2){flex:1;min-width:0}.tr .ell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nb{background:var(--acc);color:var(--onacc);border-radius:99px;font-size:11px;font-weight:800;min-width:20px;height:20px;display:grid;place-items:center;padding:0 5px}
+.hero{height:190px;margin:-8px -18px 0;display:grid;place-items:center;color:#fffc;position:relative}
+.codes{display:flex;gap:10px;justify-content:center;margin:16px 0}.codes span{width:52px;height:62px;border-radius:14px;background:#fff;color:#0E4A43;display:grid;place-items:center;font-size:28px;font-weight:800}
+#toast{position:absolute;left:24px;right:24px;top:56px;background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:0 8px 24px #0002;padding:11px 14px;border-radius:14px;font-weight:600;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}#toast.show{opacity:1}
+#info{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px;z-index:9}#info.on{display:flex}
+#info .sheet{background:var(--scr);color:var(--ink);border-radius:24px;max-width:560px;width:100%;max-height:88dvh;overflow:auto;padding:20px 22px}#info h3{margin:16px 0 4px}#info ul,#info ol{margin:4px 0;padding-left:20px}#info li{margin:3px 0}
+.logo{width:64px;height:64px;border-radius:20px;background:var(--deep);color:#fff;display:grid;place-items:center;margin:26px 0 16px}
+.err{color:var(--b);font-size:12.5px;margin-top:4px;font-weight:600}input.inv,select.inv,textarea.inv{border-color:var(--b)}
+.skel{height:200px;border-radius:20px;margin:12px 0;background:linear-gradient(90deg,var(--bub),#fff,var(--bub));background-size:200% 100%;animation:sk 1.1s infinite}@keyframes sk{to{background-position:-200% 0}}@media(prefers-reduced-motion:reduce){.skel{animation:none}}
+.map{width:100%;border-radius:16px;border:1px solid var(--line);display:block;background:#F4F1E8}
+.stp{display:flex;gap:8px;align-items:center;margin:8px 0;font-size:14px}.chk{display:flex;gap:8px;align-items:flex-start;font-weight:500;font-size:13px;margin:14px 0}
+.empty{text-align:center;color:var(--mut);padding:28px 10px}.empty .dot{margin:0 auto 10px;width:52px;height:52px}
+.nfc{border:2px dashed var(--acc);border-radius:20px;padding:18px;text-align:center;background:#FFF6EE}.nfc .pulse{width:70px;height:70px;border-radius:50%;background:var(--acc);color:var(--onacc);display:grid;place-items:center;margin:0 auto 10px}.nfc.run .pulse{animation:pl 1s infinite}@keyframes pl{0%{box-shadow:0 0 0 0 #EE8B5A99}100%{box-shadow:0 0 0 22px #EE8B5A00}}@media(prefers-reduced-motion:reduce){.nfc.run .pulse{animation:none}}
+.rng{display:flex;gap:10px;align-items:center}.rng input{flex:1}.rng span{font-size:12.5px;color:var(--mut);min-width:84px;text-align:right}
+.note{background:var(--wb);color:var(--w);border-radius:14px;padding:10px 12px;font-size:12.5px;font-weight:600;margin:10px 0}
+.sec2{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px}.sec2 h2{margin:0}
+.pre{white-space:pre-wrap;font:12px/1.5 ui-monospace,Menlo,monospace;background:var(--bub);border-radius:12px;padding:10px;margin:8px 0;overflow-wrap:anywhere}
+.fab2{background:linear-gradient(to bottom,transparent,var(--scr) 22%);padding-top:22px!important}input[type=range]{accent-color:var(--acc)}
+.atop{display:flex;justify-content:space-between;align-items:center;padding:0 18px 6px}.atop b{font-weight:800;font-size:15px}.atop button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-weight:600;font-size:12.5px;cursor:pointer}
+.tchips{display:flex;gap:6px;margin:10px 0 4px}.tchips .chip{flex:1 1 auto;padding:8px 2px;font-size:12.5px;text-align:center;white-space:nowrap;min-width:0}
+a.sm{display:inline-block;text-decoration:none;color:var(--ink)}
+</style>
+<div class="phone"><div class="sb"><span>9:41</span><span id="sbr"></span></div><div class="atop" id="atop"><b>CampusHogar</b><button data-a="info">Más información</button></div><div id="toast" role="status"></div><div class="scr" id="scr"></div><nav id="nav"></nav></div>
+<div id="info" role="dialog" aria-modal="true" aria-label="Más información"><div class="sheet" id="infob"></div></div>
+
+<script>
+/* ===== Datos sintéticos ===== */
+const UNI={ueb:{n:'U. El Bosque',lat:4.7109,lng:-74.0305},jav:{n:'Javeriana',lat:4.6283,lng:-74.0640},nac:{n:'U. Nacional',lat:4.6382,lng:-74.0840},and:{n:'U. de los Andes',lat:4.6015,lng:-74.0657},ros:{n:'U. del Rosario',lat:4.6025,lng:-74.0728},ext:{n:'U. Externado',lat:4.5968,lng:-74.0689}};
+const TMS={ueb:['Calle 127','Pepe Sierra','Calle 134'],jav:['Calle 57','Calle 45','Marly'],nac:['Av. El Dorado','Concejo de Bogotá','Calle 45'],and:['Las Aguas','Museo del Oro','Universidades'],ros:['Las Aguas','Jiménez','Museo del Oro'],ext:['Las Aguas','Universidades','Museo del Oro']};
+const SERV={a:'Agua',l:'Luz',i:'Internet',g:'Gas'};
+const AMEN={L:'Lavandería',C:'Cocina equipada',B:'Balcón',E:'Ascensor',P:'Parqueadero',V:'Vigilancia 24 h',Z:'Zona de estudio',G:'Gimnasio',M:'Acepta mascotas',T:'Terraza'};
+const RULES=['No fumar dentro del inmueble','Visitas hasta las 10:00 p. m.','Silencio después de las 10:00 p. m.','Sin fiestas ni reuniones grandes','Aseo de zonas comunes por turnos'];
+const TYPES=['Habitación','Apartaestudio','Apartamento','Casa'];
+const SC={Habitación:['fachada','alcoba','estudio','bano'],Apartaestudio:['fachada','sala','alcoba','cocina','bano'],Apartamento:['fachada','sala','cocina','alcoba','bano','vista'],Casa:['fachada','sala','cocina','alcoba','bano','vista']};
+const SCN={fachada:'Fachada',sala:'Sala',alcoba:'Alcoba',cocina:'Cocina',bano:'Baño',estudio:'Zona de estudio',vista:'Vista'};
+/* Pesos del score de confianza (sin cambios respecto a la primera entrega) */
+const WE=[['email','Correo institucional',15],['carne','Carné estudiantil',20],['bio','Selfie frente al documento',25],['acu','Acudiente verificado',15],['res','Reseñas de arriendos',25]];
+const WA=[['ced','Cédula de ciudadanía',20],['bio','Selfie frente a la cédula',20],['doc','Documento del inmueble',15],['geo','Inmueble verificado por GPS',25],['res','Reseñas de arriendos',20]];
+const AUTO={est:['res'],arr:['geo','res']};
+/* Arrendadores simulados */
+const LL=[
+{n:'Carlos Méndez',since:2022,resp:12,thr:55,ver:{ced:1,bio:1,doc:1,geo:1,res:1}},
+{n:'Luz Marina Ortiz',since:2023,resp:25,thr:45,ver:{ced:1,bio:1,doc:1,geo:1}},
+{n:'Hernán Pardo',since:2021,resp:8,thr:70,ver:{ced:1,bio:1,doc:1,geo:1,res:1}},
+{n:'Sandra Quintero',since:2024,resp:40,thr:40,ver:{ced:1,bio:1,geo:1}},
+{n:'Familia Rojas',since:2022,resp:18,thr:60,ver:{ced:1,bio:1,doc:1,geo:1,res:1}},
+{n:'Julián Cárdenas',since:2025,resp:55,thr:35,ver:{ced:1,doc:1,geo:1}},
+{n:'Beatriz Londoño',since:2023,resp:15,thr:65,ver:{ced:1,bio:1,doc:1,geo:1,res:1}},
+{n:'Andrea Salazar',since:2024,resp:30,thr:50,ver:{ced:1,bio:1,geo:1,res:1}}
+];
+/* [uni,tipo,barrio,dirección,dx m,dy m,precio (miles),admón (miles; 0 = incluida),m²,alcobas,baños,amoblado,arrendador,servicios,comodidades] */
+const ROWS=[
+['ueb','Habitación','Santa Bárbara Oriental','Cl 134 #7B-40',160,-340,780,0,14,1,1,1,0,'ail','ZM'],
+['ueb','Habitación','Cedro Golf','Cl 140 #11-15',-420,1380,620,0,12,1,1,0,1,'al','Z'],
+['ueb','Apartaestudio','Usaquén','Cra 9 #131A-62',100,-120,1250,180,28,1,1,1,0,'ailg','CEVZ'],
+['ueb','Apartaestudio','Santa Ana','Cl 127B #7-40',60,-520,1480,210,32,1,1,1,2,'ail','CBEVP'],
+['ueb','Apartamento','Cedritos','Cl 147 #13-80',-700,2500,1900,320,54,2,1,0,3,'a','EVP'],
+['ueb','Apartamento','Santa Bárbara','Cra 7 #127-35',300,-700,2650,380,68,2,2,1,1,'ail','EVPBLG'],
+['ueb','Casa','Usaquén Centro','Cra 6A #119-20',500,-1400,3400,0,120,4,3,0,4,'','PTM'],
+['ueb','Habitación','Toberín','Cl 164 #19-20',-1100,4400,540,0,11,1,1,0,5,'ail','Z'],
+['ueb','Apartaestudio','Cedritos','Cl 140 #9-60',-100,1100,1100,150,26,1,1,0,6,'ai','EV'],
+['ueb','Habitación','Usaquén','Cra 8 #131-15',120,150,700,0,13,1,1,1,0,'ailg','ZLM'],
+['ueb','Apartamento','Santa Bárbara','Cl 123 #7-55',250,-900,3100,450,82,3,2,1,2,'ail','EVPBLG'],
+['ueb','Habitación','Mazurén','Cl 152 #55-20',-2600,2300,590,0,12,1,1,0,5,'al',''],
+['ueb','Apartaestudio','Santa Bárbara Alta','Cra 3 #128-30',900,-300,1350,200,30,1,1,1,3,'ail','BEV'],
+['ueb','Casa','Cedro Bavaria','Cl 138 #6-45',-650,-100,3900,0,140,5,3,0,6,'','PTMZ'],
+['ueb','Habitación','San Antonio Norte','Cl 160 #5-19',-309,619,850,0,13,1,1,1,7,'ail','ZM'],
+['ueb','Apartaestudio','Usaquén','Cl 119 #13-37',-1219,-279,1650,230,30,1,1,1,0,'ail','CEVB'],
+['ueb','Apartamento','Verbenal','Cl 129 #5-80',1189,713,2800,400,64,2,2,1,2,'ail','EVPLG'],
+['ueb','Habitación','Bella Suiza','Cl 129 #15-90',1649,642,950,0,15,1,1,1,4,'ailg','ZLM'],
+['ueb','Casa','Usaquén','Cl 140 #5-38',1704,-581,3600,0,130,4,3,0,6,'','PTMZ'],
+['ueb','Apartaestudio','Santa Bárbara','Cl 140 #7-79',-605,-225,1400,180,27,1,1,0,3,'ai','EV'],
+['ueb','Habitación','Bella Suiza','Cl 160 #7-23',-1585,-756,650,0,12,1,1,0,1,'al','Z'],
+['ueb','Habitación','Bella Suiza','Cl 123 #13-18',-710,-341,690,0,13,1,1,1,5,'ail','ZM'],
+['ueb','Apartaestudio','Villa del Prado','Cl 160 #13-64',777,305,1150,160,26,1,1,0,7,'ai','EV'],
+['ueb','Apartamento','Toberín','Cl 145 #9-48',-714,1676,2100,300,58,2,1,0,2,'a','EVP'],
+['ueb','Casa','Cedro Golf','Cl 129 #5-83',582,-2035,3300,0,110,4,2,0,4,'','PTMZ'],
+['ueb','Apartaestudio','Santa Bárbara','Cl 145 #9-87',-2543,-405,1300,0,25,1,1,1,0,'ailg','CBV'],
+['ueb','Habitación','Verbenal','Cl 138 #7-72',1022,937,820,0,12,1,1,1,3,'ail','ZM'],
+['ueb','Apartamento','Santa Ana','Cl 150 #13-50',1975,496,2450,350,60,2,2,1,6,'ail','EVPG'],
+['ueb','Habitación','Santa Bárbara','Cl 152 #19-68',-622,-1737,600,0,11,1,1,0,5,'al',''],
+['ueb','Habitación','Santa Bárbara','Cl 145 #15-95',1475,-2327,720,0,12,1,1,1,7,'ail','ZM'],
+['ueb','Apartaestudio','Cedro Golf','Cl 160 #13-67',1971,790,1050,170,24,1,1,0,1,'ai','EV'],
+['ueb','Apartamento','Santa Ana','Cl 138 #5-69',-542,-2549,1850,260,46,2,1,0,2,'a','EV'],
+['ueb','Habitación','Cedritos','Cl 119 #7-46',297,526,640,0,10,1,1,0,3,'al','Z'],
+['ueb','Apartaestudio','Country Club','Cl 145 #5-31',-97,-1330,1200,150,24,1,1,1,4,'ail','CBE'],
+['ueb','Habitación','San Antonio Norte','Cl 127 #19-65',-833,592,610,0,11,1,1,0,5,'al','Z'],
+['ueb','Apartamento','Toberín','Cl 138 #15-58',-2031,-662,2200,330,52,2,2,1,0,'ail','EVPL']
+];
+const DESC=[
+'Espacio luminoso y tranquilo, pensado para estudiantes. Muy buena iluminación natural y ventilación.',
+'Inmueble ordenado, con buena conexión a transporte público y comercio a pocas cuadras.',
+'Zona segura y con bastante movimiento estudiantil. Ideal para quien llega a la ciudad por primera vez.',
+'Recién pintado y con mantenimiento al día. El arrendador vive cerca y responde rápido a cualquier daño.',
+'Cómodo y silencioso, con espacio para estudiar. Cerca de panaderías, supermercados y papelerías.'
+];
+const REVS=[['Laura P.',5,'Todo tal cual las fotos. El dueño respondió rápido y el contrato fue claro.'],['Andrés M.',4,'Buena ubicación, a pocas cuadras de la universidad. El internet a veces se cae.'],['Valentina S.',5,'Me sentí segura: verificaron todo antes de la visita.'],['Juan D.',4,'Limpio y tranquilo. La administración es puntual con los arreglos.'],['Mariana T.',3,'Cumple, aunque el ruido de la calle en las noches se nota.'],['Camilo R.',5,'Llegué de Medellín sin codeudor y no tuve problemas; el puntaje de confianza ayudó.'],['Sara L.',4,'Cocina completa y buena luz natural.'],['Felipe G.',5,'El arrendador cumplió lo pactado y devolvió el depósito completo.']];
+const TAGS_E=['Puntual','Amable','Inmueble como en las fotos','Buena comunicación','Devolvió el depósito','Arreglos rápidos'];
+const TAGS_A=['Puntual en pagos','Cuidó el inmueble','Buena comunicación','Respetuoso con vecinos','Cumplió el contrato'];
+/* Estudiantes simulados que escriben a los inmuebles de un arrendador */
+const SIMC=[
+{n:'Camilo R.',o:'Medellín',uni:'ueb',k:{email:1,carne:1,bio:1},meses:6,msg:'Hola, soy estudiante de primer semestre y llego de Medellín. ¿Sigue disponible?'},
+{n:'Laura P.',o:'Pasto',uni:'ueb',k:{email:1,carne:1,bio:1,acu:1},meses:12,msg:'Buenas tardes, me interesa el inmueble. Mi acudiente puede respaldarme.'},
+{n:'Andrés M.',o:'Cali',uni:'jav',k:{email:1,carne:1},meses:6,msg:'Hola, quisiera visitarlo esta semana si es posible.'},
+{n:'Valentina S.',o:'Bucaramanga',uni:'ueb',k:{email:1,carne:1,bio:1,acu:1,res:1},meses:12,msg:'Hola, ya he arrendado antes con buena calificación. ¿Podemos hablar?'}
+];
+
+/* ===== Utilidades básicas ===== */
+const hs=s=>{let h=5381;for(const c of String(s))h=((h<<5)+h+c.charCodeAt(0))|0;return Math.abs(h)};
+const rng=seed=>{let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
+const $=id=>document.getElementById(id),esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money=n=>'$'+Math.round(n).toLocaleString('es-CO');
+const RAD=Math.PI/180,hav=(a,b,c,d)=>{const h=Math.sin((c-a)*RAD/2)**2+Math.cos(a*RAD)*Math.cos(c*RAD)*Math.sin((d-b)*RAD/2)**2;return 2*6371000*Math.asin(Math.sqrt(h))};
+const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10)};
+const addD=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)};
+const pd=s=>{const [y,m,d]=String(s).split('-').map(Number);return new Date(y,m-1,d)};
+const fmtD=s=>pd(s).toLocaleDateString('es-CO',{weekday:'short',day:'numeric',month:'short'});
+const fmtL=s=>pd(s).toLocaleDateString('es-CO',{day:'numeric',month:'long',year:'numeric'});
+const fmtT=ts=>new Date(ts).toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
+/* ===== Íconos ===== */
+const IC={home:'M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',chat:'M21 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4.6A8 8 0 1 1 21 12z',doc:'M7 3h8l4 4v14H7zM14 3v5h5M10 13h6M10 17h6',user:'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0',bld:'M5 21V4h9v17M14 9h5v12M9 8h1M9 12h1M9 16h1',inbox:'M4 13l3-8h10l3 8v6H4zM4 13h5l1 2h4l1-2h5',back:'M15 5l-7 7 7 7',plus:'M12 5v14M5 12h14',check:'M5 12l5 5 9-10',next:'M9 5l7 7-7 7',shield:'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z',
+heart:'M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6.5 5.5 5.5 0 0 1 21.5 12C19 16.5 12 21 12 21z',search:'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.3-4.3',filter:'M3 5h18M6 12h12M10 19h4',bell:'M6 16V11a6 6 0 1 1 12 0v5l2 2H4zM10 21h4',map:'M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14',list:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',pin:'M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',nfc:'M6 9a5 5 0 0 1 0 6M10 6a9 9 0 0 1 0 12M14 3a13 13 0 0 1 0 18M18 7a6 6 0 0 1 0 10',send:'M22 2L11 13M22 2l-7 20-4-9-9-4z',star:'M12 3l2.7 5.8 6.3.7-4.7 4.3 1.3 6.2L12 17l-5.6 3 1.3-6.2L3 9.5l6.3-.7z',cal:'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',clock:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2',bed:'M3 18V7M3 13h18v5M21 13v-2a3 3 0 0 0-3-3h-7v5',bath:'M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4zM6 12V6a2 2 0 0 1 4 0',ruler:'M3 17L17 3l4 4L7 21zM8 12l2 2M11 9l2 2M14 6l2 2',camera:'M4 8h4l2-3h4l2 3h4v11H4zM12 17a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',trash:'M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13',edit:'M4 20h4L19 9l-4-4L4 16zM14 6l4 4',share:'M12 3v12M8 7l4-4 4 4M5 13v7h14v-7',flag:'M5 21V4M5 4h11l-2 4 2 4H5',wifi:'M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h.01',x:'M6 6l12 12M18 6L6 18',lock:'M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3',info:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5M12 8h.01',copy:'M9 9h11v11H9zM5 15V4h11',idc:'M3 5h18v14H3zM7 11a2 2 0 1 0 0 .01M12 10h6M12 14h6M5 17h4',wlk:'M13 4a1.5 1.5 0 1 0 0 .01M10 21l2-6-2-3 1-5 3 2 2 3M8 12l-1-3 4-2',chev:'M6 9l6 6 6-6'};
+const ic=(n,s=20)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${IC[n]}"/></svg>`;
+/* ===== Ilustraciones de los inmuebles (SVG generados, no son fotografías reales) ===== */
+const PAL={wall:['#EFE6D8','#DDE7E1','#E9DDE0','#E1E5EE','#F1E4CF','#D9E4D0','#EADFD2'],floor:['#B98B5E','#9C7650','#C9A27A','#8E8A84','#A97C50','#B59A7A'],acc:['#0E4A43','#EE8B5A','#3F6C8C','#8A4F7D','#C2563B','#5B7F4A','#C99A2E']};
+const sh=(hex,a)=>{const n=parseInt(hex.slice(1),16);const f=c=>Math.max(0,Math.min(255,c+a));return '#'+[(n>>16)&255,(n>>8)&255,n&255].map(c=>f(c).toString(16).padStart(2,'0')).join('')};
+const rc=(x,y,w,h,f,r=0,o='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${f}" ${o}/>`;
+const ci=(x,y,r,f,o='')=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${f}" ${o}/>`;
+const po=(p,f)=>`<polygon points="${p}" fill="${f}"/>`;
+const el=(x,y,rx,ry,f,o='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${f}" ${o}/>`;
+const win=(x,y,w,h)=>rc(x-4,y-4,w+8,h+8,'#fff',4)+rc(x,y,w,h,'url(#sk)')+ci(x+w*.72,y+h*.3,8,'#FFE9A8')+`<path d="M${x} ${y+h}L${x+w*.28} ${y+h*.55}L${x+w*.5} ${y+h*.75}L${x+w*.74} ${y+h*.42}L${x+w} ${y+h*.7}L${x+w} ${y+h}Z" fill="#7FA99B"/>`+rc(x+w/2-1.5,y,3,h,'#fff')+rc(x,y+h/2-1.5,w,3,'#fff');
+function scene(kind,seed,stamp){
+  const R=rng(seed*7+hs(kind)),pick=a=>a[Math.floor(R()*a.length)];
+  const wall=pick(PAL.wall),floor=pick(PAL.floor),acc=pick(PAL.acc);let acc2=pick(PAL.acc);if(acc2===acc)acc2='#C99A2E';
+  const dk=sh(floor,-35);let g='';
+  const room=()=>rc(0,0,400,176,wall)+rc(0,176,400,84,floor)+rc(0,170,400,8,sh(wall,-14))+rc(0,176,400,2,sh(floor,-25));
+  if(kind==='alcoba'){
+    g+=room()+win(38,34,112,86)+rc(26,26,16,104,acc2,3)+rc(146,26,16,104,acc2,3)
+     +rc(200,66,184,62,sh(acc,-25),8)+rc(190,118,204,72,'#fff',8)+rc(190,150,204,46,acc,8)+rc(205,124,62,24,'#F7F4EE',8)+rc(278,124,62,24,'#F7F4EE',8)+rc(196,190,9,30,dk)+rc(380,190,9,30,dk)
+     +rc(150,150,38,50,sh(floor,-12),3)+rc(156,160,26,3,dk)+rc(156,170,26,3,dk)+rc(164,122,7,28,'#6B5B4B')+po('155,124 180,124 172,102 163,102','#F5E3B3')
+     +el(290,232,112,20,acc2,'opacity=".35"')+rc(268,26,74,48,'#fff',3)+rc(273,31,64,38,acc2,2)+po('273,69 295,48 310,62 322,52 337,69',sh(acc2,40));
+  }else if(kind==='sala'){
+    g+=room()+win(250,30,120,90)+rc(238,22,16,104,acc2,3)+rc(366,22,16,104,acc2,3)
+     +rc(40,118,210,66,acc,14)+rc(30,132,34,62,sh(acc,-18),12)+rc(236,132,34,62,sh(acc,-18),12)+rc(70,100,56,34,sh(acc,30),10)+rc(140,100,56,34,'#F7F4EE',10)+rc(48,190,8,18,dk)+rc(244,190,8,18,dk)
+     +el(150,226,100,18,acc2,'opacity=".35"')+rc(104,198,92,30,'#8B6B4B',5)+rc(110,203,80,4,'#A98866')+rc(284,170,8,36,'#6B5B4B')+po('272,172 304,172 296,146 280,146','#F5E3B3')
+     +rc(300,176,34,38,'#B5532A',6)+ci(316,160,18,'#4E8A5B')+ci(300,168,13,'#6AA570')+ci(332,166,13,'#3F7A4D')
+     +rc(60,32,110,60,'#fff',4)+rc(66,38,98,48,sh(acc2,60),2)+po('66,86 100,56 124,74 144,60 164,86',sh(acc,30));
+  }else if(kind==='cocina'){
+    g+=rc(0,0,400,260,'#F2EDE4');for(let i=0;i<10;i++)g+=rc(i*40,70,1.5,106,'#E2DACB');for(let j=0;j<3;j++)g+=rc(0,70+j*35,400,1.5,'#E2DACB');
+    g+=rc(0,176,400,84,floor)+rc(10,20,230,56,acc,6)+[0,1,2,3].map(i=>rc(14+i*57,24,52,48,sh(acc,22),4)+rc(34+i*57,60,12,3,'#fff')).join('')
+     +rc(10,150,260,26,'#EDE7DA',3)+rc(10,176,260,64,sh(acc,10),4)+[0,1,2].map(i=>rc(14+i*86,182,80,52,sh(acc,28),4)+rc(46+i*86,186,16,3,'#fff')).join('')
+     +rc(40,134,70,16,'#C9D2D6',4)+rc(70,124,4,12,'#9AA6AB')+rc(158,140,60,10,'#444',3)+rc(168,118,40,22,'#D0D0D0',4)+rc(172,112,32,6,'#999',2)
+     +rc(292,26,92,194,'#E9EDEF',8)+rc(296,30,84,86,'#F7F9FA',5)+rc(296,122,84,94,'#F7F9FA',5)+rc(366,60,4,30,'#9AA6AB')+rc(366,150,4,30,'#9AA6AB')+rc(244,34,40,38,'#fff',3)+rc(248,38,32,30,'url(#sk)')+rc(263,38,2,30,'#fff');
+  }else if(kind==='bano'){
+    g+=rc(0,0,400,260,'#E8EEF0');for(let i=0;i<14;i++)g+=rc(i*30,0,1.2,176,'#CBD6DA');for(let j=0;j<7;j++)g+=rc(0,j*26,400,1.2,'#CBD6DA');
+    g+=rc(0,176,400,84,'#B9C3C7')+rc(0,176,400,3,'#9FAAAE')
+     +rc(20,92,170,84,'#fff',16)+rc(28,100,154,60,'#CFE6EF',12)+rc(185,110,8,66,'#B9C3C7')+rc(80,70,5,22,'#9AA6AB')+rc(68,64,30,8,'#9AA6AB',3)
+     +rc(240,26,100,96,'#DDE6E9',6)+rc(246,32,88,84,'#F5FBFD',4)+po('250,110 290,40 300,40 262,110','#fff6')
+     +rc(236,132,108,12,'#fff',6)+rc(250,144,80,32,'#F4F4F4',10)+rc(284,126,12,10,'#9AA6AB')
+     +rc(350,120,40,56,'#fff',10)+rc(356,100,28,26,'#fff',8)+rc(300,196,70,14,acc2,6);
+  }else if(kind==='estudio'){
+    g+=room()+win(36,30,100,80)+rc(24,22,14,96,acc2,3)+rc(134,22,14,96,acc2,3)
+     +rc(190,30,190,96,sh(floor,-5),4);for(let r=0;r<2;r++){let x=196;for(let i=0;i<10;i++){const w=10+Math.floor(R()*9);g+=rc(x,36+r*46,w,38,pick(PAL.acc),2);x+=w+2}g+=rc(190,76+r*46,190,4,dk)}
+    g+=rc(150,146,200,12,'#8B6B4B',3)+rc(158,156,8,60,dk)+rc(334,156,8,60,dk)+rc(220,112,90,36,'#2A2F33',4)+rc(224,116,82,28,sh(acc,70),2)+rc(228,122,50,3,'#fff')+rc(228,130,64,3,'#fff6')+rc(210,148,110,6,'#C9CED1',3)
+     +rc(190,150,18,38,'#fff',3)+rc(250,176,56,12,sh(acc,-10),6)+rc(274,188,6,26,'#555')+rc(256,212,44,6,'#555',3)+rc(340,112,6,36,'#6B5B4B')+po('330,114 356,114 348,92 338,92','#F5E3B3');
+  }else if(kind==='vista'){
+    g+=rc(0,0,400,260,'url(#sk)')+ci(300,60,24,'#FFE9A8')+`<path d="M0 150L60 100L110 130L170 70L240 120L300 90L400 140V190H0Z" fill="#7FA99B"/><path d="M0 170L80 130L150 160L230 120L320 160L400 130V200H0Z" fill="#5C8B7F"/>`;
+    for(let i=0;i<16;i++){const w=14+Math.floor(R()*18),h=24+Math.floor(R()*60),x=i*26;g+=rc(x,200-h,w,h,pick(['#9AA6B8','#B6A99A','#A8B4A6','#8C98AA']),1)}
+    g+=rc(0,196,400,64,'#CFC6B6')+rc(0,190,400,8,'#7A6F60');for(let i=0;i<20;i++)g+=rc(i*21+4,150,4,42,'#4A5560');g+=rc(0,148,400,6,'#4A5560')+rc(30,200,44,40,'#B5532A',6)+ci(52,190,18,'#4E8A5B')+rc(320,206,50,34,'#8B6B4B',6)+ci(346,196,16,'#6AA570');
+  }else{ // fachada
+    const casa=seed%5===0;
+    g+=rc(0,0,400,150,'url(#sk)')+`<path d="M0 118L70 82L130 106L200 60L280 100L340 78L400 106V160H0Z" fill="#7FA99B"/>`+rc(0,150,400,110,'#B9B4A8')+rc(0,170,400,90,'#6F6E6A')+rc(0,166,400,6,'#CFCABD');
+    for(let i=0;i<7;i++)g+=rc(i*62+10,214,34,4,'#E8E3D2');
+    if(casa){
+      g+=rc(110,92,190,78,pick(PAL.wall),2)+po('96,96 205,42 314,96',acc)+rc(250,48,16,32,'#8B6B4B')+rc(190,120,38,50,'#8B6B4B',3)+ci(220,146,2.5,'#E7D9B8')+rc(128,110,44,36,'#E6F1F7',2)+rc(250,110,40,36,'#E6F1F7',2)+rc(128,128,44,2,'#fff')+rc(250,128,40,2,'#fff')+rc(100,156,210,14,'#9C968A');
+    }else{
+      const fl=3+(seed%3),w=206,x0=96,fh=30,top=166-fl*fh;const bc=pick(['#E6C8A4','#D7B79A','#C9B7D0','#BCD1C4','#E3B8A8','#B9C8DC']);
+      g+=rc(x0,top,w,fl*fh,bc,2)+rc(x0-6,top-8,w+12,10,sh(bc,-40),2);
+      for(let f=0;f<fl-1;f++)for(let c=0;c<4;c++){const wx=x0+14+c*50,wy=top+8+f*fh;g+=rc(wx,wy,34,20,'#DCEBF2',2)+rc(wx-3,wy+19,40,5,sh(bc,-45),1)+rc(wx+16,wy,1.5,20,'#fff')}
+      const gy=top+(fl-1)*fh;g+=rc(x0,gy,w,fh,sh(bc,-12))+rc(x0+84,gy+2,38,fh-2,'#6B4E36',3)+rc(x0+80,gy-4,46,6,acc,2)+ci(x0+116,gy+16,2,'#E7D9B8')+rc(x0+14,gy+6,52,18,'#DCEBF2',2)+rc(x0+144,gy+6,52,18,'#DCEBF2',2);
+    }
+    g+=rc(52,126,10,48,'#6B5B4B')+ci(57,112,28,'#4E8A5B')+ci(42,124,18,'#6AA570')+rc(336,134,9,40,'#6B5B4B')+ci(340,122,24,'#5B9A67')+ci(354,130,16,'#6AA570');
+  }
+  if(stamp)g+=rc(0,226,400,34,'#000a')+`<text x="12" y="241" font-size="11" fill="#fff" font-family="monospace">${esc(stamp[0])}</text><text x="12" y="254" font-size="10" fill="#cfe" font-family="monospace">${esc(stamp[1])}</text>`;
+  return `<svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración: ${SCN[kind]||kind}"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE0F0"/><stop offset="1" stop-color="#F2F8FA"/></linearGradient></defs>${g}</svg>`;
+}
+const scs=(l)=>SC[l.type]||SC.Apartamento;
+const img=(l,i=0)=>scene(scs(l)[i%scs(l).length],l.art);
+/* ===== Mapa esquemático de la zona (sin teselas reales) ===== */
+function areaMap(uni,items,sel){
+  const U=UNI[uni],rel=l=>({x:(l.lng-U.lng)*111320*Math.cos(U.lat*RAD),y:(l.lat-U.lat)*111320});
+  const pts=items.map(l=>({l,...rel(l)}));const mx=Math.max(1200,Math.min(4500,...[Math.max(0,...pts.map(p=>Math.hypot(p.x,p.y)))])),k=128/mx;
+  let s=`<svg class="map" viewBox="0 0 340 300" role="img" aria-label="Mapa esquemático con los inmuebles alrededor de ${UNI[uni].n}"><rect width="340" height="300" fill="#F4F1E8"/>`;
+  const R2=rng(hs(uni));for(let i=0;i<9;i++){const p=30+i*34;s+=`<path d="M${p} 0L${p+(R2()*30-15)} 300" stroke="#E3DDCB" stroke-width="${i%3?3:6}"/>`;s+=`<path d="M0 ${p-10}L340 ${p+(R2()*30-15)-10}" stroke="#E3DDCB" stroke-width="${i%3?3:6}"/>`}
+  [0.33,0.66,1].forEach(f=>{const r=128*f;s+=`<circle cx="170" cy="150" r="${r}" fill="none" stroke="#25694F55" stroke-dasharray="4 4"/>`;s+=`<text x="${170+r*.7+2}" y="${150-r*.7}" font-size="9" fill="#5D6A65">${Math.round(mx*f/100)/10} km</text>`});
+  s+=`<circle cx="170" cy="150" r="9" fill="#0E4A43"/><text x="170" y="136" text-anchor="middle" font-size="10" font-weight="700" fill="#10302B">${esc(UNI[uni].n)}</text>`;
+  pts.forEach(p=>{const x=170+p.x*k,y=150-p.y*k;if(x<8||x>332||y<8||y>292)return;const c=p.l.v==='ok'?'#25694F':'#D9811F';const on=sel===p.l.id;s+=`<g data-a="pin" data-i="${p.l.id}" style="cursor:pointer"><circle cx="${x}" cy="${y}" r="${on?11:8}" fill="${on?'#EE8B5A':c}" stroke="#fff" stroke-width="2"/></g>`});
+  return s+'</svg>';
+}
+function geoMap(g){const k=70/150,cl=v=>Math.max(-190,Math.min(190,v||0))*k,dx=cl(g.dx),dy=cl(g.dy);
+return `<svg class="map" viewBox="0 0 300 180" role="img" aria-label="Mapa con la dirección declarada y la ubicación capturada"><path d="M0 60H300M0 120H300M80 0V180M200 0V180" stroke="#D9D2C0"/><circle cx="150" cy="90" r="${150*k}" fill="#EE8B5A22" stroke="#EE8B5A" stroke-dasharray="4 4"/><circle cx="150" cy="90" r="${50*k}" fill="#25694F22" stroke="#25694F" stroke-dasharray="4 4"/><line x1="150" y1="90" x2="${150+dx}" y2="${90-dy}" stroke="#10302B" stroke-width="1.5"/><circle cx="150" cy="90" r="7" fill="#0E4A43"/><circle cx="${150+dx}" cy="${90-dy}" r="7" fill="#EE8B5A" stroke="#fff" stroke-width="2"/><text x="8" y="172" font-size="11" fill="#5D6A65">Verde: dirección · Naranja: foto · Anillos: 50 y 150 m</text></svg>`}
+
+/* ===== Estado y persistencia ===== */
+const KEY='campushogar_v5';let MEM=null;
+const lsGet=()=>{try{return localStorage.getItem(KEY)}catch(e){return MEM}},lsSet=v=>{try{localStorage.setItem(KEY,v)}catch(e){MEM=v}},lsDel=()=>{try{localStorage.removeItem(KEY)}catch(e){}MEM=null};
+const defF=()=>({q:'',types:[],pmin:0,pmax:4500000,dmax:4000,beds:0,baths:0,furn:'any',serv:[],amen:[],ver:false,smin:0,mm:0,avail:'',acc:false,sort:'near',view:'list'});
+const PERS=['users','uid','role','props','threads','reqs','visits','notifs','q','F','seq','mode','src','off'];
+const fresh=()=>({scr:'welcome',nav:[],role:null,uid:null,am:'in',tab:0,sel:null,tid:null,rid:null,pid:null,err:{},f:{},busy:false,loaded:false,loading:false,users:[],props:[],threads:[],reqs:[],visits:[],notifs:[],q:[],seq:1,F:defF(),gi:0,vk:null,vm:'ocr',vcap:false,vstep:0,vcode:null,gstep:null,mapSel:null,pstep:1,vdate:null,vslot:null,vmode:'presencial',rstars:0,rtags:[],mode:'app',src:'sim',off:20,am2:null,showData:false,delAsk:null});
+const init=()=>{const s=fresh();try{const d=JSON.parse(lsGet()||'null');if(d)PERS.forEach(k=>{if(d[k]!==undefined)s[k]=d[k]})}catch(e){}s.F=Object.assign(defF(),s.F);if(s.uid&&s.users.some(u=>u.id===s.uid)){s.scr='main'}else{s.uid=null;s.role=null}return s};
+let S=init();
+const save=()=>{const d={};PERS.forEach(k=>d[k]=S[k]);lsSet(JSON.stringify(d))};
+const nid=p=>p+(S.seq++);
+const uById=id=>S.users.find(u=>u.id===id);
+const me=()=>uById(S.uid)||{ver:{},fav:[],np:{}};
+const est=()=>S.role==='est';
+const hash=t=>'h'+hs(t);
+const sc=(W,k)=>W.reduce((a,w)=>a+(k&&k[w[0]]?w[2]:0),0);
+const lvl=s=>s>=70?['Alto','ok']:s>=40?['Medio','warn']:['Bajo','bad'];
+const tag=(t,c,x='')=>`<span class="tag ${c} ${x}">${t}</span>`;
+const scoreU=u=>u?sc(u.role==='est'?WE:WA,u.ver):0;
+const isSeed=id=>String(id).startsWith('S'),isSim=id=>String(id).startsWith('sim');
+const curUni=()=>'ueb';
+/* ===== Toast ===== */
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2600)}
+/* ===== Arrendadores y estudiantes (reales o simulados) ===== */
+function llInfo(id){
+  if(isSeed(id)){const i=+String(id).slice(1),L=LL[i];return {id,n:L.n,since:L.since,resp:L.resp,thr:L.thr,ver:L.ver,score:sc(WA,L.ver),seed:true,props:ROWS.filter(r=>r[12]===i).length}}
+  const u=uById(id);if(!u)return {id,n:'Arrendador',since:2026,resp:30,thr:60,ver:{},score:0,props:0};
+  return {id,n:u.name,since:new Date(u.since||Date.now()).getFullYear(),resp:u.resp||20,thr:u.thr||60,ver:u.ver,score:scoreU(u),seed:false,props:S.props.filter(p=>p.owner===id).length};
+}
+const eName=r=>isSim(r.eid)?r.ename:(uById(r.eid)||{name:'Estudiante'}).name;
+const eVer=r=>isSim(r.eid)?(r.k||{}):((uById(r.eid)||{ver:{}}).ver);
+const eScore=r=>sc(WE,eVer(r));
+const tName=(t)=>isSim(t.eid)?t.en:(uById(t.eid)||{name:'Estudiante'}).name;
+/* ===== Inmuebles ===== */
+const SEEDL=ROWS.map((r,i)=>{const [u,t,b,ad,dx,dy,p,adm,ar,bd,ba,fu,li,sv,am]=r,U=UNI[u],R=rng(i*97+11);
+  const rules=RULES.filter((_,j)=>j===0||R()>.5),mm=[3,6,6,12][Math.floor(R()*4)],ver=(i%9===4)?'rev':'ok';
+  return {id:'s'+i,seed:true,art:i+3,title:`${t} ${['luminosa','tranquila','cómoda','amplia','acogedora'][i%5]} en ${b}`,type:t,barrio:b,addr:ad,uni:u,lat:U.lat+dy/111320,lng:U.lng+dx/(111320*Math.cos(U.lat*RAD)),price:p*1000,adm:adm*1000,dep:1,area:ar,beds:bd,baths:ba,furn:!!fu,serv:sv.split('').filter(Boolean),amen:am.split('').filter(Boolean),rules,minM:mm,avail:addD(Math.floor(R()*35)),desc:DESC[i%DESC.length],v:ver,nfc:ver==='ok'&&i%3!==0,ll:'S'+li,rating:+(4+R()*.8).toFixed(1),nrev:2+Math.floor(R()*22),views:30+Math.floor(R()*200),tm:[TMS[u][i%3],250+Math.floor(R()*800)],gd:ver==='ok'?8+Math.floor(R()*35):92}});
+const revsOf=l=>{const out=[];S.reqs.forEach(r=>{if(r.lid===l.id&&r.rt&&r.rt.est)out.push({n:eName(r),s:r.rt.est.n,t:r.rt.est.txt,tags:r.rt.est.tags||[],real:1})});
+  if(l.seed){const R=rng(hs(l.id));const k=Math.min(4,3+Math.floor(R()*2));for(let i=0;i<k;i++){const x=REVS[Math.floor(R()*REVS.length)];out.push({n:x[0],s:x[1],t:x[2],tags:[]})}}return out};
+function pL(p){const rv=S.reqs.filter(r=>r.lid===p.id&&r.rt&&r.rt.est);return {...p,seed:false,own:true,ll:p.owner,v:p.geo?p.geo.v:'bad',rating:rv.length?+(rv.reduce((a,r)=>a+r.rt.est.n,0)/rv.length).toFixed(1):null,nrev:rv.length,tm:[TMS[p.uni][hs(p.id)%3],300+hs(p.addr)%700],gd:p.geo&&p.geo.d!=null?p.geo.d:null}}
+const allL=()=>[...SEEDL,...S.props.filter(p=>p.status==='publicado'||p.status==='revision').map(pL)];
+const getL=id=>{const p=S.props.find(x=>x.id===id);return p?pL(p):SEEDL.find(l=>l.id===id)};
+const dOf=(l,uni)=>Math.round(hav(UNI[uni].lat,UNI[uni].lng,l.lat,l.lng));
+const walk=d=>Math.max(1,Math.round(d/75));
+const dTxt=d=>d<1000?d+' m':(d/1000).toFixed(1).replace('.',',')+' km';
+const typeIc=l=>l.type;
+function filtered(){const F=S.F,uni=curUni(),q=F.q.trim().toLowerCase(),sMe=est()&&S.uid?scoreU(me()):0;
+  let a=allL().map(l=>({l,d:dOf(l,uni)}));
+  a=a.filter(({l,d})=>{
+    if(q&&!(l.title+' '+l.barrio+' '+l.addr+' '+l.type).toLowerCase().includes(q))return false;
+    if(F.types.length&&!F.types.includes(l.type))return false;
+    if(l.price<F.pmin)return false;if(F.pmax<4500000&&l.price>F.pmax)return false;
+    if(F.dmax<4000&&d>F.dmax)return false;
+    if(l.beds<F.beds||l.baths<F.baths)return false;
+    if(F.furn==='yes'&&!l.furn)return false;if(F.furn==='no'&&l.furn)return false;
+    if(F.serv.some(s=>!l.serv.includes(s)))return false;
+    if(F.amen.some(s=>!l.amen.includes(s)))return false;
+    if(F.ver&&l.v!=='ok')return false;
+    if(F.smin&&llInfo(l.ll).score<F.smin)return false;
+    if(F.mm&&l.minM>F.mm)return false;
+    if(F.avail&&l.avail>F.avail)return false;
+    if(F.acc&&llInfo(l.ll).thr>sMe)return false;
+    return true});
+  const so={near:(x,y)=>x.d-y.d,pa:(x,y)=>x.l.price-y.l.price,pd:(x,y)=>y.l.price-x.l.price,sc:(x,y)=>llInfo(y.l.ll).score-llInfo(x.l.ll).score,rat:(x,y)=>(y.l.rating||0)-(x.l.rating||0)};
+  return a.sort(so[F.sort]||so.near)}
+function nFilters(){const F=S.F;return [F.types.length,F.pmin>0||F.pmax<4500000,F.dmax<4000,F.beds,F.baths,F.furn!=='any',F.serv.length,F.amen.length,F.ver,F.smin,F.mm,F.avail,F.acc].filter(Boolean).length}
+const priceTxt=l=>money(l.price)+'/mes';
+const initCost=(l)=>l.price+(l.adm||0)+l.price*(l.dep||1);
+/* ===== Notificaciones ===== */
+function nt(uid,t,go,kind){const u=uById(uid);if(!u)return;S.notifs.unshift({id:nid('n'),uid,t,ts:Date.now(),read:false,go});S.notifs=S.notifs.slice(0,80);if(uid===S.uid&&(!u.np||u.np[kind||'msg']!==false))toast(t)}
+const myNotifs=()=>S.notifs.filter(n=>n.uid===S.uid),unread=()=>myNotifs().filter(n=>!n.read).length;
+/* ===== Chat ===== */
+const CONTACT=/(?:\+?57[\s-]?)?3\d{2}[\s.-]?\d{3}[\s.-]?\d{4}|[\w.+-]+@[\w-]+\.[\w.-]+|\b\d{7,10}\b/g;
+function botReply(l,text,li){const t=text.toLowerCase();
+  if(/gracias|listo|perfecto|dale|vale\b/.test(t))return '¡Con gusto! Cualquier duda me escribes por aquí.';
+  if(/visita|conocer|ver el|agendar/.test(t))return 'Claro. Puedes agendar desde el botón «Agendar visita» y la confirmo enseguida. Al llegar, hacemos el check-in'+(l.nfc?' con la etiqueta NFC de la puerta.':' desde la app.');
+  if(/disponible|libre/.test(t))return `Sí, está disponible desde el ${fmtL(l.avail)}.`;
+  if(/dep[oó]sito/.test(t))return `El depósito es de ${l.dep} canon (${money(l.price*l.dep)}) y se devuelve al terminar el contrato si todo está en orden.`;
+  if(/precio|canon|cu[aá]nto|valor|costo/.test(t))return `El canon es ${money(l.price)} al mes${l.adm?` más ${money(l.adm)} de administración`:' con administración incluida'}. El depósito es de ${l.dep} canon.`;
+  if(/servicio|agua|luz|internet|gas|wifi/.test(t))return l.serv.length?`Incluye: ${l.serv.map(s=>SERV[s]).join(', ')}. Lo demás va por tu cuenta.`:'Los servicios no están incluidos; se pagan según consumo.';
+  if(/mascota|perro|gato/.test(t))return l.amen.includes('M')?'Sí, se aceptan mascotas pequeñas.':'Por ahora no se aceptan mascotas.';
+  if(/contrato|m[ií]nimo|meses|duraci/.test(t))return `El contrato mínimo es de ${l.minM} meses y queda registrado en la plataforma.`;
+  if(/codeudor|fiador|garant/.test(t))return `No exijo codeudor con finca raíz si tu puntaje de confianza es de ${li.thr} o más. Si estás cerca, puedes aportar un acudiente.`;
+  if(/hola|buenas|buenos/.test(t))return `¡Hola! Gracias por escribir sobre «${l.title}». ¿En qué te ayudo?`;
+  return 'Gracias por tu mensaje. Te cuento con más detalle en un momento; mientras tanto puedes agendar una visita desde la app.'}
+const simStu=t=>/visita|agend/i.test(t)?'Perfecto, me sirve esta semana.':/aceptad|acept|contrato/i.test(t)?'¡Genial! Reviso las condiciones y acepto hoy mismo.':'Gracias por la información, la reviso y te cuento.';
+function openThread(lid){let t=S.threads.find(x=>x.lid===lid&&x.eid===S.uid);if(!t){const l=getL(lid);t={id:nid('t'),lid,eid:S.uid,aid:l.ll,msgs:[],un:{est:0,arr:0}};S.threads.push(t)}return t}
+function say(t,text){const r=S.role;let msg=String(text).trim();if(!msg)return;
+  const free=S.reqs.some(q=>q.lid===t.lid&&q.eid===t.eid&&q.status==='aceptada');let masked=false;
+  if(!free)msg=msg.replace(CONTACT,()=>{masked=true;return '••••••'});
+  t.msgs.push({f:r,t:msg,ts:Date.now()});if(masked)t.msgs.push({f:'sys',t:'Por seguridad, los datos de contacto se ocultan hasta que el arriendo esté aceptado.',ts:Date.now()});
+  const l=getL(t.lid);
+  if(r==='est'){if(isSeed(t.aid))sched(1000+Math.random()*900,'reply',{tid:t.id,f:'arr',t:botReply(l,msg,llInfo(t.aid))});else{t.un.arr++;nt(t.aid,`Nuevo mensaje de ${me().name.split(' ')[0]}`,{scr:'thread',tid:t.id},'msg')}}
+  else{if(isSim(t.eid))sched(1200,'reply',{tid:t.id,f:'est',t:simStu(msg)});else{t.un.est++;nt(t.eid,`Mensaje de ${me().name.split(' ')[0]} sobre ${l?l.title:'tu solicitud'}`,{scr:'thread',tid:t.id},'msg')}}
+  save()}
+/* ===== Cola de eventos simulados (persistente) ===== */
+function sched(ms,k,a){S.q.push({at:Date.now()+ms,k,a});save()}
+const reqById=id=>S.reqs.find(r=>r.id===id),visById=id=>S.visits.find(v=>v.id===id),thById=id=>S.threads.find(t=>t.id===id);
+function regIfBoth(r){if(r.ce&&r.ca&&!r.reg){r.reg={id:'CH-'+String(Date.now()).slice(-6),f:new Date().toLocaleString('es-CO')};const l=getL(r.lid);[r.eid,l&&l.ll].forEach(u=>{if(u&&uById(u))nt(u,'Acuerdo registrado: '+r.reg.id,{scr:'req',rid:r.id},'req')});return true}return false}
+function runEv(e){const a=e.a;
+  if(e.k==='reply'){const t=thById(a.tid);if(!t)return;t.msgs.push({f:a.f,t:a.t,ts:Date.now()});const viewing=S.scr==='thread'&&S.tid===t.id;
+    const to=a.f==='arr'?t.eid:t.aid;if(!viewing&&to===S.uid){t.un[a.f==='arr'?'est':'arr']++;nt(to,'Nuevo mensaje de '+(a.f==='arr'?llInfo(t.aid).n:tName(t)),{scr:'thread',tid:t.id},'msg')}}
+  else if(e.k==='decide'){const r=reqById(a.rid);if(!r||r.status!=='enviada')return;const l=getL(r.lid);if(!l)return;const li=llInfo(l.ll);if(!li.seed)return;const s=eScore(r);
+    if(s>=li.thr||(r.cod&&s>=li.thr-25)){r.status='aceptada';nt(r.eid,`${li.n} aceptó tu solicitud. Revisa el contrato.`,{scr:'req',rid:r.id},'req');sched(1500,'simaccept',{rid:r.id,who:'arr'})}
+    else if(s>=li.thr-25&&!r.cod){r.status='codeudor';nt(r.eid,`${li.n} pide un codeudor o acudiente para continuar.`,{scr:'req',rid:r.id},'req')}
+    else{r.status='rechazada';r.reason=`Tu puntaje (${s}) está por debajo del mínimo que pide este arrendador (${li.thr}). Verifica más datos o aporta un acudiente.`;nt(r.eid,`${li.n} no pudo aceptar tu solicitud.`,{scr:'req',rid:r.id},'req')}}
+  else if(e.k==='vdecide'){const v=visById(a.vid);if(!v||v.status!=='pendiente')return;v.status='confirmada';nt(v.eid,`Visita confirmada para el ${fmtD(v.date)} a las ${v.slot}`,{scr:'main',tab:3},'visit')}
+  else if(e.k==='simaccept'){const r=reqById(a.rid);if(!r||r.reg||r.status!=='aceptada')return;if(a.who==='arr')r.ca=true;else r.ce=true;regIfBoth(r)}
+  else if(e.k==='simrate'){const r=reqById(a.rid);if(!r||!r.ended)return;r.rt=r.rt||{};const w=a.who;if(!r.rt[w]){r.rt[w]={n:5,tags:w==='est'?['Puntual','Amable']:['Puntual en pagos'],txt:'',ts:Date.now()};if(w==='arr'){const u=uById(r.eid);if(u)u.ver.res=true}else{const l=getL(r.lid),u=l&&uById(l.ll);if(u)u.ver.res=true}}}
+  else if(e.k==='simcod'){const r=reqById(a.rid);if(!r||r.status!=='codeudor')return;r.cod={n:'Acudiente de '+(r.ename||'estudiante'),p:'300•••45',rel:'Acudiente'};r.status='enviada';const l=getL(r.lid);if(l&&uById(l.ll))nt(l.ll,(r.ename||'El estudiante')+' aportó un acudiente.',{scr:'req',rid:r.id},'req')}
+  else if(e.k==='approve'){const p=S.props.find(x=>x.id===a.pid);if(!p||p.status!=='revision')return;p.geo=Object.assign({},p.geo,{v:'ok',r:['Verificada (revisión manual)','ok','Un revisor confirmó la ubicación del inmueble.','ok']});applyGeo(p);nt(p.owner,`Tu inmueble «${p.title}» fue aprobado y ya está publicado.`,{scr:'main',tab:0},'req')}
+}
+function tick(){const now=Date.now();const due=S.q.filter(e=>e.at<=now);if(!due.length)return;S.q=S.q.filter(e=>e.at>now);due.forEach(runEv);save();softRender()}
+/* ===== Candidatos simulados para un inmueble publicado ===== */
+function seedCands(p){if(p.sim)return;p.sim=true;const owner=p.owner,R=rng(hs(p.id));let n=0;
+  SIMC.forEach((c,i)=>{if(i>2&&R()>.5)return;const eid='sim:'+i,ts=Date.now()-(i+1)*36e5;
+    const r={id:nid('r'),lid:p.id,eid,ename:c.n,k:c.k,o:c.o,status:'enviada',ts,start:addD(10+i*4),months:Math.max(c.meses,p.minM||3),occ:1,msg:c.msg,cod:null,sim:true};S.reqs.push(r);n++;
+    if(i<2)S.threads.push({id:nid('t'),lid:p.id,eid,en:c.n,aid:owner,msgs:[{f:'est',t:c.msg,ts}],un:{est:0,arr:1}});
+    if(i===0)S.visits.push({id:nid('v'),lid:p.id,eid,ename:c.n,aid:owner,date:addD(3),slot:'10:00',mode:'presencial',status:'pendiente',sim:true,ts})});
+  nt(owner,`Llegaron ${n} solicitudes de estudiantes interesados.`,{scr:'main',tab:1},'req')}
+/* ===== Propiedades ===== */
+function mkProp(owner,d){const U=UNI[d.uni],R=rng(hs(d.addr+owner));const ang=R()*360*RAD,rad=120+R()*520;
+  return {id:nid('p'),owner,status:'borrador',geo:null,views:0,saves:0,created:Date.now(),art:hs(d.addr)%60+3,nfc:false,sim:false,log:[],dep:1,...d,lat:U.lat+Math.cos(ang)*rad/111320,lng:U.lng+Math.sin(ang)*rad/(111320*Math.cos(U.lat*RAD))}}
+function applyGeo(p){const u=uById(p.owner);
+  if(p.geo.v==='ok'){p.status='publicado';seedCands(p)}else if(p.geo.v==='rev'){p.status='revision';sched(15000,'approve',{pid:p.id})}else p.status='rechazado';
+  if(u)u.ver.geo=S.props.some(x=>x.owner===u.id&&x.geo&&x.geo.v==='ok'&&x.status!=='rechazado')?true:undefined;}
+const rule=d=>d<=50?['Verificada','ok','El GPS coincide con la dirección declarada.','ok']:d<=150?['Revisión manual','warn','Diferencia moderada: un revisor confirma antes de publicar.','rev']:['Rechazada','bad','Diferencia alta: posible ubicación manipulada.','bad'];
+function doGeo(pid){const p=S.props.find(x=>x.id===pid);if(!p)return;S.gstep=0;S.pid=pid;render();
+  const done=(g,lg)=>{p.geo=Object.assign(g,{ts:Date.now()});p.log=(p.log||[]).concat([lg]).slice(-5);applyGeo(p);S.gstep=null;save();render()};
+  const fin=(lat,lng,acc,real)=>{const d=hav(p.lat,p.lng,lat,lng),r=rule(d);done({v:r[3],r,d:Math.round(d),lat,lng,acc,real,dy:(lat-p.lat)*111320,dx:(lng-p.lng)*111320*Math.cos(p.lat*RAD)},[real?'App · GPS real':'App · GPS',Math.round(d),r[0]])};
+  const sim=()=>{const o=S.off;fin(p.lat+o*Math.cos(40*RAD)/111320,p.lng+o*Math.sin(40*RAD)/(111320*Math.cos(p.lat*RAD)),8,false)};
+  setTimeout(()=>{S.gstep=1;render()},600);setTimeout(()=>{S.gstep=2;render()},1300);
+  setTimeout(()=>{if(S.mode==='gal')return done({v:'bad',r:['Rechazada','bad','Las fotos de galería no se aceptan: no traen metadatos GPS.','bad'],d:null,dx:0,dy:0},['Galería','—','Rechazada']);
+    if(S.src==='real'&&navigator.geolocation){try{navigator.geolocation.getCurrentPosition(q=>fin(q.coords.latitude,q.coords.longitude,Math.round(q.coords.accuracy),true),()=>{toast('No se pudo obtener el GPS real. Se usó la simulación.');sim()},{timeout:5000,enableHighAccuracy:true})}catch(e){sim()}}else sim()},2000)}
+/* ===== Navegación ===== */
+const snap=()=>({scr:S.scr,tab:S.tab,sel:S.sel,tid:S.tid,rid:S.rid,pid:S.pid,vk:S.vk,gi:S.gi});
+function go(scr,p={}){S.nav.push(snap());Object.assign(S,{scr,gi:0},p);S.f={};S.err={};save();render()}
+function back(){const s=S.nav.pop();if(s)Object.assign(S,s);else S.scr='main';S.f={};S.err={};save();render()}
+const fv=(id,d='')=>S.f[id]!==undefined?S.f[id]:d;
+/* ===== Cuentas de demostración ===== */
+function demoLogin(role){let u;
+  if(role==='est'){u=S.users.find(x=>x.email==='sofia.demo@unbosque.edu.co');
+    if(!u){u={id:nid('u'),role:'est',name:'Sofía Ramírez',email:'sofia.demo@unbosque.edu.co',pass:hash('Demo1234'),ver:{email:1,carne:1,bio:1},vm:{carne:'ocr'},uni:'ueb',origin:'Pasto',prog:'Ingeniería de Sistemas',fav:['s2','s9'],np:{msg:true,req:true,visit:true},since:Date.now(),demo:true};S.users.push(u)}}
+  else{u=S.users.find(x=>x.email==='marcela.demo@correo.com');
+    if(!u){u={id:nid('u'),role:'arr',name:'Marcela Duarte',email:'marcela.demo@correo.com',pass:hash('Demo1234'),ver:{ced:1,bio:1,doc:1},vm:{ced:'ocr'},thr:60,resp:15,np:{msg:true,req:true,visit:true},since:Date.now(),demo:true};S.users.push(u);
+      const p=mkProp(u.id,{title:'Apartaestudio amoblado',type:'Apartaestudio',uni:'ueb',barrio:'Usaquén',addr:'Cra 9 #131A-20',price:1150000,adm:150000,area:30,beds:1,baths:1,furn:true,serv:['a','l','i'],amen:['E','V','Z','C'],rules:[RULES[0],RULES[2]],minM:6,avail:addD(7),desc:'Apartaestudio amoblado a pocos minutos de la universidad, con buena luz natural y portería.'});
+      p.geo={v:'ok',r:['Verificada','ok','El GPS coincide con la dirección declarada.','ok'],d:18,dx:10,dy:14,lat:p.lat,lng:p.lng,acc:8,real:false,ts:Date.now()};p.nfc=true;S.props.push(p);applyGeo(p)}}
+  S.uid=u.id;S.role=role;S.scr='main';S.tab=0;S.nav=[];S.f={};save();render();toast('Bienvenido, '+u.name.split(' ')[0])}
+/* ===== Texto del contrato ===== */
+function contractText(r,l){const li=llInfo(l.ll);return `CONTRATO DE ARRENDAMIENTO (CampusHogar)\nCódigo: ${r.reg?r.reg.id:'pendiente'}\n\nArrendador: ${li.n}\nArrendatario: ${eName(r)}\nInmueble: ${l.title}, ${l.addr}, ${l.barrio} (Bogotá)\nCanon mensual: ${money(l.price)}${l.adm?' + administración '+money(l.adm):' (administración incluida)'}\nDepósito: ${l.dep} canon (${money(l.price*l.dep)})\nDuración: ${r.months} meses\nInicio: ${fmtL(r.start)}\nPago: directamente entre las partes, fuera de la plataforma\nReglas: ${l.rules.join('; ')||'—'}\n\nEste documento deja trazabilidad de lo acordado entre las partes.`}
+function userData(u){const d={cuenta:{nombre:u.name,correo:u.email,rol:u.role,universidad:u.uni||null,verificaciones:u.ver,score:scoreU(u)},solicitudes:S.reqs.filter(r=>r.eid===u.id||(getL(r.lid)&&getL(r.lid).ll===u.id)).map(r=>({inmueble:r.lid,estado:r.status,inicio:r.start,meses:r.months})),visitas:S.visits.filter(v=>v.eid===u.id||v.aid===u.id).length,mensajes:S.threads.filter(t=>t.eid===u.id||t.aid===u.id).length,nota:'Datos de demostración almacenados solo en este navegador.'};return JSON.stringify(d,null,2)}
+function deleteAccount(){const id=S.uid;S.reqs=S.reqs.filter(r=>r.eid!==id&&!(getL(r.lid)&&getL(r.lid).ll===id));S.props=S.props.filter(p=>p.owner!==id);S.threads=S.threads.filter(t=>t.eid!==id&&t.aid!==id);S.visits=S.visits.filter(v=>v.eid!==id&&v.aid!==id);S.notifs=S.notifs.filter(n=>n.uid!==id);S.users=S.users.filter(u=>u.id!==id);S.uid=null;S.role=null;S.scr='welcome';S.nav=[];S.delAsk=null;save();render();toast('Cuenta y datos eliminados (derecho de supresión, Ley 1581).')}
+
+/* ===== Piezas compartidas ===== */
+const head=(t,a='back',extra='')=>`<div class="hdr"><button class="back" data-a="${a}" aria-label="Volver">${ic('back')}</button><b>${esc(t)}</b>${extra}</div>`;
+const gate=t=>`<div class="note">${t}</div>`;
+const bars=(W,k)=>W.map(w=>`<div style="margin-top:9px"><div class="row"><span>${w[1]}</span><b>${k&&k[w[0]]?w[2]:0}/${w[2]}</b></div><div class="bar"><i style="width:${k&&k[w[0]]?100:0}%"></i></div></div>`).join('');
+const vt=l=>l.v==='ok'?tag(ic('shield',12)+' Verificado','ok','on-img'):l.v==='rev'?tag('En revisión','warn','on-img'):tag('Sin verificar','bad','on-img');
+const fld=(id,l,t,ph,d,ex='')=>`<label for="${id}">${l}</label><input type="${t}" id="${id}" data-f value="${esc(fv(id,d))}" placeholder="${ph}" ${S.err[id]?'class="inv"':''} autocomplete="off" ${ex}>${S.err[id]?`<div class="err">${S.err[id]}</div>`:''}`;
+const sel=(id,l,opts,d)=>`<label for="${id}">${l}</label><select id="${id}" data-f>${opts.map(o=>`<option value="${o[0]}" ${String(fv(id,d))===String(o[0])?'selected':''}>${o[1]}</option>`).join('')}</select>`;
+const fa=id=>S.f[id]||[];
+const tgl=(k,v,t,on,extra='')=>`<button class="chip ${on?'on':''}" data-a="fchip" data-k="${k}" data-v="${v}" ${extra}>${t}</button>`;
+const stT={enviada:['Enviada','warn'],aceptada:['Aceptada','ok'],codeudor:['Piden codeudor','warn'],rechazada:['Rechazada','bad'],cancelada:['Cancelada','neu']};
+const stReq=r=>r.reg?(r.ended?['Finalizado','neu']:['Contrato registrado','ok']):(stT[r.status]||['—','neu']);
+const stVis={pendiente:['Pendiente','warn'],confirmada:['Confirmada','ok'],rechazada:['Rechazada','bad'],realizada:['Realizada','ok'],cancelada:['Cancelada','neu']};
+const miniTh=(l,i=0)=>`<div class="th">${img(l,i)}</div>`;
+const pEst=u=>{const k=u.ver||{};return sc(WE,k)};
+/* ===== Verificaciones ===== */
+const VF={
+  email:{t:'Correo institucional',d:'Enviamos un código de 6 dígitos a tu correo.',f:[['vc','Código',/^\d{6}$/,'Escribe los 6 dígitos.','123456']]},
+  carne:{t:'Carné estudiantil',d:'Verifica tu carné con una foto o leyendo el chip por NFC.',nfc:1,f:[['vn','Número de carné',/^\d{6,10}$/,'Entre 6 y 10 dígitos.','20231234']],cap:'Fotografiar carné',cs:['Detectando el documento…','Leyendo datos…','Datos leídos'],doc:'carné'},
+  bio:{t:'Selfie frente al documento',d:'Encuadra tu rostro para compararlo con el documento.',cap:'Iniciar selfie',cs:['Detectando rostro…','Comparando con el documento…','Coincidencia confirmada']},
+  acu:{t:'Acudiente verificado',d:'Tu acudiente confirmará que te respalda (se simula el código por mensaje).',f:[['vn','Nombre del acudiente',/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{5,60}$/,'Escribe nombre y apellido.','Marta Gómez'],['vt','Celular del acudiente',/^3\d{9}$/,'Celular colombiano de 10 dígitos que inicia en 3.','3001234567']]},
+  ced:{t:'Cédula de ciudadanía',d:'Verifica tu cédula con una foto o leyendo el chip por NFC (cédula digital).',nfc:1,f:[['vn','Número de cédula',/^\d{6,10}$/,'Entre 6 y 10 dígitos.','1012345678']],cap:'Fotografiar cédula',cs:['Detectando el documento…','Leyendo datos…','Datos leídos'],doc:'cédula'},
+  doc:{t:'Documento del inmueble',d:'Matrícula inmobiliaria del certificado de tradición.',f:[['vn','Matrícula inmobiliaria',/^\d{2,3}[A-Za-z]-\d{4,8}$/,'Formato: 50N-12345678.','50N-12345678']],cap:'Adjuntar certificado',cs:['Subiendo archivo…','Verificando la matrícula…','Documento recibido']}
+};
+const NS=['Buscando el chip NFC…','Leyendo el chip (datos firmados)…','Firma digital válida'];
+function verList(){const e=est(),W=e?WE:WA,u=me(),k=u.ver||{};return W.map(w=>{const au=AUTO[S.role].includes(w[0]);const m=(u.vm||{})[w[0]];return `<div class="vr"><span class="dot ${k[w[0]]?'on':''}">${ic(k[w[0]]?'check':'shield',18)}</span><div><b>${w[1]}</b><div class="mut">+${w[2]} puntos${au?' · se obtiene con el uso':''}${m==='nfc'?' · vía NFC':''}</div></div>${k[w[0]]||au?'':`<button class="sm" data-a="ver" data-k="${w[0]}">Verificar</button>`}</div>`}).join('')}
+function vVfy(){const c=VF[S.vk],E=S.err,nfc=c.nfc&&S.vm==='nfc';const caps=nfc?NS:c.cs;
+  return `${head(c.t)}<p class="mut">${c.d}</p>
+  ${c.nfc?`<div class="seg"><button data-a="vmeth" data-m="ocr" class="${nfc?'':'on'}">Foto + OCR</button><button data-a="vmeth" data-m="nfc" class="${nfc?'on':''}">NFC (chip)</button></div>`:''}
+  ${S.vk==='email'?`<div class="card" style="background:var(--soft)"><b>Bandeja de entrada</b><div class="mut">Para: ${esc(me().email||'')}</div><div>Tu código CampusHogar es <b>${S.vcode}</b></div></div>`:''}
+  ${(c.f||[]).filter(f=>!nfc).map(f=>fld(f[0],f[1],'text',f[4],'')).join('')}
+  ${nfc?`<div class="nfc ${S.vcap==='run'?'run':''}"><div class="pulse">${ic('nfc',34)}</div><b>Acerca tu ${c.doc} al teléfono</b><p class="mut">Apoya el documento en la parte trasera del equipo. Se lee el chip y se valida su firma digital.</p><button class="sm" data-a="vcap" ${S.vcap?'disabled':''}>${S.vcap==='done'?'Lectura completa':'Iniciar lectura NFC'}</button>${caps.map((t,i)=>S.vcap&&S.vstep>=i?`<div class="stp" style="justify-content:center"><span class="dot on" style="width:22px;height:22px">${ic('check',14)}</span>${t}</div>`:'').join('')}${E.cap?`<div class="err">${E.cap}</div>`:''}</div>`
+   :c.cap?`<div class="card"><button class="sm" data-a="vcap" ${S.vcap?'disabled':''}>${ic('camera',16)} ${c.cap}</button>${caps.map((t,i)=>S.vcap&&S.vstep>=i?`<div class="stp"><span class="dot on" style="width:22px;height:22px">${ic('check',14)}</span>${t}</div>`:'').join('')}${E.cap?`<div class="err">${E.cap}</div>`:''}</div>`:''}
+  <button class="btn acc" data-a="vok" style="margin-top:14px" ${S.busy?'disabled':''}>${S.busy?'Verificando…':'Verificar'}</button>`}
+function doVfy(){const c=VF[S.vk],E={},nfc=c.nfc&&S.vm==='nfc';
+  if(!nfc)(c.f||[]).forEach(f=>{if(!f[2].test(String(S.f[f[0]]||'').trim()))E[f[0]]=f[3]});
+  if(S.vk==='email'&&!E.vc&&String(S.f.vc||'').trim()!==S.vcode)E.vc='El código no coincide con el enviado a tu correo.';
+  if((c.cap||nfc)&&S.vcap!=='done')E.cap='Completa la captura primero.';
+  S.err=E;if(Object.keys(E).length){render();return}
+  S.busy=true;render();const k=S.vk;setTimeout(()=>{S.busy=false;const u=me();u.ver[k]=true;u.vm=u.vm||{};u.vm[k]=nfc?'nfc':'ocr';save();toast('Verificado: '+c.t+(nfc?' (NFC)':''));back()},800)}
+/* ===== Pantallas de entrada ===== */
+function vWel(){return `<div class="logo">${ic('bld',34)}</div><div class="eb">Universidad El Bosque · piloto</div><h1>Arriendos seguros para estudiantes</h1><p class="mut">Identidad verificada, inmuebles reales y un historial de confianza que te acompaña. Sin codeudor con finca raíz.</p>
+<div style="margin-top:28px"><button class="btn" data-a="role" data-r="est">Soy estudiante</button><button class="btn sec" data-a="role" data-r="arr" style="margin-top:12px">Soy arrendador</button></div>
+<div class="card" style="margin-top:22px"><b>Acceso rápido</b><p class="mut">Entra con una cuenta de prueba que ya tiene actividad.</p><div class="two"><button class="btn sec" data-a="demo" data-r="est">Estudiante demo</button><button class="btn sec" data-a="demo" data-r="arr">Arrendador demo</button></div></div>
+`}
+function vAuth(){const e=est(),up=S.am==='up';
+  return `${head(e?'Estudiante':'Arrendador')}<h1>${up?'Crea tu cuenta':'Bienvenido de nuevo'}</h1><div class="seg"><button data-a="am" data-m="in" class="${up?'':'on'}">Iniciar sesión</button><button data-a="am" data-m="up" class="${up?'on':''}">Crear cuenta</button></div>
+${up?fld('an','Nombre completo','text','Nombre y apellido',''):''}${fld('ae',e?'Correo institucional':'Correo electrónico','text',e?'usuario@unbosque.edu.co':'correo@ejemplo.com','')}
+${up&&e?fld('ao','Ciudad de origen','text','Ej. Pasto',''):''}
+${fld('ap','Contraseña','password','Mínimo 8 caracteres, con letras y números','')}${up?fld('ap2','Confirmar contraseña','password','Repite la contraseña',''):''}
+${up?`<label class="chk"><input type="checkbox" id="at" data-f ${fv('at',false)?'checked':''}> Autorizo el tratamiento de mis datos personales (Ley 1581 de 2012).</label>${S.err.at?`<div class="err">${S.err.at}</div>`:''}`:''}
+<button class="btn" data-a="auth" style="margin-top:20px" ${S.busy?'disabled':''}>${S.busy?'Validando…':up?'Crear cuenta':'Entrar'}</button>${up?'':'<p class="mut" style="text-align:center;margin-top:14px">¿Sin cuenta? Créala en la pestaña superior.</p>'}`}
+function doAuth(){const up=S.am==='up',g=id=>String(S.f[id]||'').trim(),pw=String(S.f.ap||''),E={},n=up?g('an'):'',m=g('ae').toLowerCase(),p2=String(S.f.ap2||'');
+  if(up&&!(/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,60}$/.test(n)&&n.split(' ').filter(Boolean).length>=2))E.an='Escribe tu nombre y apellido (solo letras).';
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m))E.ae='Escribe un correo válido.';else if(up&&est()&&!/@([a-z0-9-]+\.)*edu\.co$/.test(m))E.ae='Usa tu correo institucional (termina en .edu.co).';
+  if(up){if(pw.length<8||!/[A-Za-z]/.test(pw)||!/\d/.test(pw))E.ap='Mínimo 8 caracteres con letras y números.';else if(pw!==p2)E.ap2='Las contraseñas no coinciden.';if(!S.f.at)E.at='Debes autorizar el tratamiento de datos.'}else if(!pw)E.ap='Escribe tu contraseña.';
+  S.err=E;if(Object.keys(E).length){render();return}
+  S.busy=true;render();setTimeout(()=>{S.busy=false;const u=S.users.find(x=>x.email===m);
+    if(up){if(u){S.err={ae:'Este correo ya está registrado. Inicia sesión.'};render();return}const nu={id:nid('u'),role:S.role,name:n,email:m,pass:hash(pw),ver:{},vm:{},fav:[],np:{msg:true,req:true,visit:true},since:Date.now(),uni:g('au')||'ueb',origin:g('ao'),thr:60,resp:20};S.users.push(nu);S.uid=nu.id;S.scr='onb';S.err={};S.f={};S.nav=[];toast('Cuenta creada. Ahora verifica tu identidad.')}
+    else{if(!u){S.err={ae:'Este correo no está registrado. Crea una cuenta.'};render();return}if(u.role!==S.role){S.err={ae:'Ese correo es de una cuenta de '+(u.role==='est'?'estudiante':'arrendador')+'.'};render();return}if(u.pass!==hash(pw)){S.err={ap:'Contraseña incorrecta.'};render();return}S.uid=u.id;S.scr='main';S.tab=0;S.err={};S.f={};S.nav=[];toast('Bienvenido, '+u.name.split(' ')[0]+'.')}
+    save();render()},700)}
+const idV=u=>{const k=(u||me()).ver||{};return k.email&&k.carne&&k.bio},idA=u=>{const k=(u||me()).ver||{};return k.ced&&k.bio};
+function vOnb(){return `<div class="eb">Paso 1 de 1</div><h1>Verifica tu identidad</h1><p class="mut">${est()?'Con esto podrás escribir y solicitar arriendos. Un estudiante nuevo puede llegar a 75 puntos sin historial.':'Con esto podrás verificar y publicar tus inmuebles.'}</p>${verList()}<button class="btn" data-a="cont" ${(est()?idV():idA())?'':'disabled'}>Continuar</button><button class="btn sec" data-a="cont" style="margin-top:10px">Hacerlo después</button>`}
+/* ===== Shell: render, pestañas ===== */
+const TABS={est:[['Explorar','search'],['Guardados','heart'],['Mensajes','chat'],['Arriendos','doc'],['Perfil','user']],arr:[['Inmuebles','bld'],['Solicitudes','inbox'],['Mensajes','chat'],['Contratos','doc'],['Perfil','user']]};
+const myThreads=()=>S.threads.filter(t=>(est()?t.eid===S.uid:t.aid===S.uid));
+const myReqs=()=>S.reqs.filter(r=>est()?r.eid===S.uid:(getL(r.lid)||{}).ll===S.uid);
+const myVis=()=>S.visits.filter(v=>est()?v.eid===S.uid:v.aid===S.uid);
+function tabBadge(i){if(i===2)return myThreads().reduce((a,t)=>a+((t.un||{})[S.role]||0),0);
+  if(est()&&i===3)return myReqs().filter(r=>r.status==='codeudor'||(r.status==='aceptada'&&!r.ce)).length;
+  if(!est()&&i===1)return myReqs().filter(r=>r.status==='enviada').length+myVis().filter(v=>v.status==='pendiente').length;
+  if(!est()&&i===3)return myReqs().filter(r=>r.status==='aceptada'&&!r.ca).length;return 0}
+let lastK='',lastMsgs=-1;
+function render(){$('atop').style.display=S.scr==='det'?'none':'flex';const sT=$('scr').scrollTop,m=S.scr==='main';const k=[S.scr,S.tab,S.role,S.tid,S.rid,S.pid,S.sel,S.vk,S.F.view].join('|');
+  let h;try{h=(VIEWS[S.scr]||vWel)()}catch(e){console.error(e);h='<div class="note">No se pudo mostrar esta pantalla. Vuelve atrás e inténtalo de nuevo.</div>'}
+  const sc0=$('scr');sc0.innerHTML=h;sc0.className='scr'+(S.scr==='done'?' dark':'');
+  if(k!==lastK){sc0.scrollTop=0;lastK=k;lastMsgs=-1}else sc0.scrollTop=sT;
+  if(S.scr==='thread'){const t=thById(S.tid);const c=t?t.msgs.length:0;if(c!==lastMsgs){sc0.scrollTop=sc0.scrollHeight;lastMsgs=c}}
+  const nav=$('nav');nav.style.display=m?'flex':'none';
+  if(m)nav.innerHTML=TABS[S.role].map((t,i)=>{const b=tabBadge(i);return `<button data-a="tab" data-i="${i}" class="${S.tab===i?'on':''}" aria-label="${t[0]}">${ic(t[1],22)}${t[0]}${b?`<span class="n">${b}</span>`:''}</button>`}).join('');
+  const u=S.uid&&uById(S.uid),n=u?unread():0;$('sbr').innerHTML=u?`<button class="bellb" data-a="notif" aria-label="Notificaciones">${ic('bell',20)}${n?`<span class="n">${n}</span>`:''}</button>`:'<span aria-hidden="true">●●● 5G</span>'}
+function softRender(){const a=document.activeElement,id=a&&a.id,v=a&&a.value,st=a&&a.selectionStart,en=a&&a.selectionEnd;render();if(id&&$(id)&&'value' in $(id)&&$(id)!==document.activeElement){const x=$(id);if(x.type!=='checkbox'&&x.type!=='range'&&x.tagName!=='SELECT')x.value=v;x.focus();try{x.setSelectionRange(st,en)}catch(e){}}}
+/* ===== Explorar (estudiante) ===== */
+function cardL(l,d,fav){const li=llInfo(l.ll);
+  return `<div class="lc" data-a="det" data-i="${l.id}"><div class="ph">${img(l,0)}<div class="ov">${vt(l)}${l.nfc?tag(ic('nfc',12)+' NFC','neu','on-img'):''}</div>${est()?`<button class="heart ${fav?'on':''}" data-a="fav" data-i="${l.id}" aria-label="${fav?'Quitar de guardados':'Guardar'}">${ic('heart',18)}</button>`:''}</div>
+  <div class="lb"><div class="row"><b>${esc(l.title)}</b>${l.rating?`<span class="star">${ic('star',13)} ${l.rating}</span>`:tag('Nuevo','neu')}</div><span class="mut">${l.type} · ${esc(l.barrio)} · ${dTxt(d)} (${walk(d)} min a pie)</span>
+  <div class="row"><span class="price">${priceTxt(l)}</span><span class="mut">${l.adm?'+ '+money(l.adm)+' admón.':'Admón. incluida'}</span></div>
+  <div class="feat"><span>${ic('bed',14)} ${l.beds}</span><span>${ic('bath',14)} ${l.baths}</span><span>${ic('ruler',14)} ${l.area} m²</span>${l.furn?'<span>Amoblado</span>':''}${l.serv.includes('i')?`<span>${ic('wifi',14)} Internet</span>`:''}</div></div></div>`}
+function vExplore(){const u=me(),uni=curUni(),res=filtered(),F=S.F,n=nFilters(),myR=S.reqs.find(r=>r.eid===S.uid&&!['cancelada','rechazada'].includes(r.status)&&!r.ended);
+  const s=scoreU(u);
+  const ban=myR?`<div class="banner" data-a="reqopen" data-i="${myR.id}"><div class="g"><small>Tu solicitud</small><b>${esc((getL(myR.lid)||{title:'Inmueble'}).title)} · ${stReq(myR)[0]}</b></div>${ic('next')}</div>`:!idV(u)?`<div class="banner" data-a="tab" data-i="4"><div class="g"><small>Falta un paso</small><b>Verifica tu identidad</b></div>${ic('next')}</div>`:`<div class="banner" data-a="tab" data-i="4"><div class="g"><small>Tu score de confianza</small><b>${s} · Nivel ${lvl(s)[0]}</b></div>${ic('next')}</div>`;
+  const list=!S.loaded?loadList():(res.length?(F.view==='map'?mapBlock(res,uni):res.map(({l,d})=>cardL(l,d,(u.fav||[]).includes(l.id))).join('')):`<div class="empty"><div class="dot">${ic('search',22)}</div><b>No hay inmuebles con esos filtros</b><p>Prueba ampliar el precio o la distancia.</p><button class="sm" data-a="freset">Quitar filtros</button></div>`);
+  return `<div class="eb">Hola, ${esc((u.name||'').split(' ')[0])} · zona ${esc(UNI[uni].n)}</div><h1>¿Dónde vas a vivir?</h1>${ban}
+<div class="row" style="gap:8px;margin-top:6px"><input type="text" id="sq" placeholder="Barrio, dirección o tipo" value="${esc(F.q)}" aria-label="Buscar" style="flex:1"><button class="back" data-a="filt" aria-label="Filtros" style="position:relative">${ic('filter',18)}${n?`<span class="nb" style="position:absolute;top:-6px;right:-6px">${n}</span>`:''}</button></div>
+
+<div class="tchips">${TYPES.map(t=>`<button class="chip ${F.types.includes(t)?'on':''}" data-a="ftype" data-v="${t}">${t}</button>`).join('')}</div>
+<div class="row" style="margin:4px 0 0"><b>${S.loaded?res.length+' inmueble'+(res.length===1?'':'s'):'Cargando…'}</b><div style="display:flex;gap:6px;align-items:center"><select id="sort" aria-label="Ordenar" style="width:auto;padding:8px 10px;font-size:13px"><option value="near" ${F.sort==='near'?'selected':''}>Más cerca</option><option value="pa" ${F.sort==='pa'?'selected':''}>Precio ↑</option><option value="pd" ${F.sort==='pd'?'selected':''}>Precio ↓</option><option value="sc" ${F.sort==='sc'?'selected':''}>Mejor score</option><option value="rat" ${F.sort==='rat'?'selected':''}>Mejor calificados</option></select><button class="back" data-a="view" data-v="${F.view==='map'?'list':'map'}" aria-label="${F.view==='map'?'Ver lista':'Ver mapa'}" style="width:38px;height:38px">${ic(F.view==='map'?'list':'map',18)}</button></div></div>
+${list}`}
+const loadList=()=>{if(!S.loading){S.loading=true;setTimeout(()=>{S.loaded=true;S.loading=false;render()},700)}return '<div class="skel"></div><div class="skel"></div><p class="mut">Cargando inmuebles…</p>'};
+function mapBlock(res,uni){const sel=res.find(x=>x.l.id===S.mapSel);
+  return `<div style="margin-top:10px">${areaMap(uni,res.map(x=>x.l),S.mapSel)}</div><p style="margin:6px 0 0"><a class="sm" href="https://www.google.com/maps/search/?api=1&query=${UNI[uni].lat},${UNI[uni].lng}" target="_blank" rel="noopener">Ver la zona en Google Maps</a></p><p class="mut" style="margin:6px 0">Verde: verificado · Naranja: en revisión. Toca un punto para ver el inmueble.</p>${sel?cardL(sel.l,sel.d,(me().fav||[]).includes(sel.l.id)):'<div class="card mut" style="text-align:center">Selecciona un punto del mapa.</div>'}`}
+/* ===== Filtros ===== */
+function vFilt(){const F=S.F,n=filtered().length;
+  return `${head('Filtros','back',`<button class="sm" data-a="freset">Limpiar</button>`)}
+<h3>Tipo de inmueble</h3><div class="chips">${TYPES.map(t=>`<button class="chip ${F.types.includes(t)?'on':''}" data-a="ftype" data-v="${t}">${t}</button>`).join('')}</div>
+<h3>Precio mensual</h3><div class="rng"><input type="range" id="fpmin" min="0" max="4500000" step="50000" value="${F.pmin}" aria-label="Precio mínimo"><span id="fpminv">${money(F.pmin)}</span></div><div class="rng"><input type="range" id="fpmax" min="0" max="4500000" step="50000" value="${F.pmax}" aria-label="Precio máximo"><span id="fpmaxv">${F.pmax>=4500000?'Sin tope':money(F.pmax)}</span></div>
+<h3>Distancia a ${esc(UNI[curUni()].n)}</h3><div class="rng"><input type="range" id="fdmax" min="250" max="4000" step="250" value="${F.dmax}" aria-label="Distancia máxima"><span id="fdmaxv">${F.dmax>=4000?'Sin tope':dTxt(F.dmax)}</span></div>
+<h3>Alcobas</h3><div class="chips">${[0,1,2,3].map(v=>`<button class="chip ${F.beds===v?'on':''}" data-a="fset" data-k="beds" data-v="${v}">${v?v+'+':'Cualquiera'}</button>`).join('')}</div>
+<h3>Baños</h3><div class="chips">${[0,1,2].map(v=>`<button class="chip ${F.baths===v?'on':''}" data-a="fset" data-k="baths" data-v="${v}">${v?v+'+':'Cualquiera'}</button>`).join('')}</div>
+<h3>Amoblado</h3><div class="chips">${[['any','Da igual'],['yes','Amoblado'],['no','Sin amoblar']].map(o=>`<button class="chip ${F.furn===o[0]?'on':''}" data-a="fset" data-k="furn" data-v="${o[0]}">${o[1]}</button>`).join('')}</div>
+<h3>Servicios incluidos</h3><div class="chips">${Object.keys(SERV).map(k=>`<button class="chip ${F.serv.includes(k)?'on':''}" data-a="farr" data-k="serv" data-v="${k}">${SERV[k]}</button>`).join('')}</div>
+<h3>Comodidades</h3><div class="chips">${Object.keys(AMEN).map(k=>`<button class="chip ${F.amen.includes(k)?'on':''}" data-a="farr" data-k="amen" data-v="${k}">${AMEN[k]}</button>`).join('')}</div>
+<h3>Contrato mínimo</h3><div class="chips">${[[0,'Cualquiera'],[3,'Hasta 3 meses'],[6,'Hasta 6 meses'],[12,'Hasta 12 meses']].map(o=>`<button class="chip ${F.mm===o[0]?'on':''}" data-a="fset" data-k="mm" data-v="${o[0]}">${o[1]}</button>`).join('')}</div>
+<label for="favail">Disponible antes del</label><input type="date" id="favail" value="${esc(F.avail)}" min="${addD(0)}">
+<h3>Confianza</h3><div class="tg"><span>Solo inmuebles verificados</span><input type="checkbox" class="sw" id="fver" ${F.ver?'checked':''} aria-label="Solo verificados"></div>
+<div class="tg"><span>Me aceptan sin codeudor con mi score <span class="mut">(${scoreU(me())})</span></span><input type="checkbox" class="sw" id="facc" ${F.acc?'checked':''} aria-label="Aceptan mi score"></div>
+<label for="fsmin">Score mínimo del arrendador: <span id="fsminv">${F.smin||'Cualquiera'}</span></label><input type="range" id="fsmin" min="0" max="100" step="10" value="${F.smin}">
+<div class="fab2"><button class="btn acc" data-a="back" id="fcount">Ver ${n} resultado${n===1?'':'s'}</button></div>`}
+/* ===== Guardados ===== */
+function vSaved(){const u=me(),uni=curUni(),items=(u.fav||[]).map(getL).filter(Boolean);
+  return `<div class="eb">Tu lista</div><h1>Guardados</h1>${items.length?items.map(l=>cardL(l,dOf(l,uni),true)).join(''):`<div class="empty"><div class="dot">${ic('heart',22)}</div><b>Aún no guardas inmuebles</b><p>Toca el corazón en cualquier inmueble para compararlo después.</p><button class="sm fill" data-a="tab" data-i="0">Explorar inmuebles</button></div>`}`}
+/* ===== Detalle ===== */
+function vDet(){const l=getL(S.sel);if(!l)return head('Inmueble')+'<div class="empty">Este inmueble ya no está disponible.</div>';
+  const li=llInfo(l.ll),uni=curUni(),d=dOf(l,uni),e=est(),u=me(),fav=e&&(u.fav||[]).includes(l.id),myR=e?S.reqs.find(r=>r.lid===l.id&&r.eid===S.uid&&r.status!=='cancelada'):null;
+  const sMe=e?scoreU(u):0,diff=sMe-li.thr,own=l.own&&l.ll===S.uid,sc2=scs(l),gi=((S.gi%sc2.length)+sc2.length)%sc2.length,rv=revsOf(l);
+  const months=Math.max(l.minM,+fv('cm',l.minM));
+  const near=Object.keys(UNI).map(k=>[k,dOf(l,k)]).sort((a,b)=>a[1]-b[1]).slice(0,3);
+  const g=l.own?(S.props.find(p=>p.id===l.id)||{}).geo:null;
+  return `<div class="gal">${scene(sc2[gi],l.art)}<div class="top2"><button class="back" data-a="back" aria-label="Volver">${ic('back')}</button>${e?`<button class="heart ${fav?'on':''}" data-a="fav" data-i="${l.id}" aria-label="Guardar" style="position:static">${ic('heart',18)}</button>`:''}</div><button class="gb l" data-a="gal" data-d="-1" aria-label="Foto anterior">${ic('back',18)}</button><button class="gb r" data-a="gal" data-d="1" aria-label="Foto siguiente">${ic('next',18)}</button><span class="cnt">${SCN[sc2[gi]]} · ${gi+1}/${sc2.length}</span></div>
+<div class="thumbs">${sc2.map((k,i)=>`<button class="${i===gi?'on':''}" data-a="galset" data-i="${i}" aria-label="${SCN[k]}">${scene(k,l.art)}</button>`).join('')}</div>
+
+<div class="chips" style="margin:8px 0 0">${vt(l).replace(' on-img','')}${l.nfc?tag(ic('nfc',12)+' Etiqueta NFC en la puerta','neu'):''}${tag(l.type,'neu')}</div>
+<h1 style="margin-top:8px">${esc(l.title)}</h1>
+<div class="row"><span class="mut">${esc(l.addr)} · ${esc(l.barrio)}</span>${l.rating?`<span class="star">${ic('star',13)} ${l.rating} <span class="mut" style="font-weight:500">(${l.nrev})</span></span>`:tag('Nuevo','neu')}</div>
+<div class="row" style="margin-top:6px"><span class="big" style="font-size:28px">${money(l.price)}<span class="mut" style="font-size:14px;font-weight:600">/mes</span></span><span class="mut">${l.adm?'+ '+money(l.adm)+' admón.':'Admón. incluida'}</span></div>
+<div class="grid3" style="margin-top:12px"><div class="ft"><b>${l.beds}</b>alcoba${l.beds>1?'s':''}</div><div class="ft"><b>${l.baths}</b>baño${l.baths>1?'s':''}</div><div class="ft"><b>${l.area} m²</b>${l.furn?'amoblado':'sin amoblar'}</div></div>
+<p>${esc(l.desc)}</p>
+<h2>Ubicación</h2><div class="card"><div class="row"><b>${dTxt(d)} de ${esc(UNI[uni].n)}</b>${tag(walk(d)+' min a pie','neu')}</div><div class="mut" style="margin-top:4px">Estación ${esc(l.tm[0])} (TransMilenio) a ${dTxt(l.tm[1])}. También cerca de: ${near.filter(n=>n[0]!==uni).slice(0,2).map(n=>esc(UNI[n[0]].n)+' ('+dTxt(n[1])+')').join(' y ')}.</div>
+<p style="margin:10px 0 0"><a class="sm" href="https://www.google.com/maps/search/?api=1&query=${l.lat},${l.lng}" target="_blank" rel="noopener">${ic('map',14)} Abrir en Google Maps</a> <a class="sm" href="https://www.google.com/maps/dir/?api=1&destination=${l.lat},${l.lng}&travelmode=walking" target="_blank" rel="noopener">Cómo llegar</a></p><div style="margin-top:10px" class="mut">${l.v==='ok'?`${ic('shield',14)} Foto tomada en la app. El GPS quedó a <b>${l.gd}</b> m de la dirección publicada.`:l.v==='rev'?'En revisión manual: la diferencia de GPS es moderada.':'Sin foto con geolocalización.'}</div>${g&&g.d!=null?`<div style="margin-top:10px">${geoMap(g)}</div>`:''}</div>
+<h2>Costos</h2><div class="card"><table><tr><td>Canon mensual</td><td style="text-align:right">${money(l.price)}</td></tr><tr><td>Administración</td><td style="text-align:right">${l.adm?money(l.adm):'Incluida'}</td></tr><tr><td>Depósito (${l.dep} canon)</td><td style="text-align:right">${money(l.price*l.dep)}</td></tr><tr><td><b>Pago inicial</b></td><td style="text-align:right"><b>${money(initCost(l))}</b></td></tr></table>
+<label for="cm">Duración del contrato: <b id="cmv">${months}</b> meses</label><input type="range" id="cm" data-f min="${l.minM}" max="12" step="1" value="${months}"><div class="row"><span class="mut">Costo total del contrato</span><b id="cmt">${money((l.price+(l.adm||0))*months)}</b></div><p class="mut" style="font-size:12px">Contrato mínimo: ${l.minM} meses. El pago se hace directamente entre las partes, fuera de la app.</p></div>
+<h2>Qué incluye</h2><div class="chips">${l.serv.length?l.serv.map(s=>tag(SERV[s]+' incluido','ok')).join(' '):tag('Servicios no incluidos','neu')}</div><div class="chips">${l.amen.length?l.amen.map(a=>tag(AMEN[a],'neu')).join(' '):'<span class="mut">Sin comodidades adicionales.</span>'}</div>
+<h2>Reglas de la casa</h2><ul class="ul">${l.rules.map(r=>`<li>${r}</li>`).join('')||'<li>Sin reglas especiales.</li>'}<li>${l.amen.includes('M')?'Se aceptan mascotas':'No se aceptan mascotas'}</li></ul><p class="mut">Disponible desde el <b>${fmtL(l.avail)}</b>.</p>
+<h2>Arrendador</h2><div class="card"><div class="row"><div><b>${esc(li.n)}</b><div class="mut">Desde ${li.since} · responde en ~${li.resp} min · ${li.props} inmueble${li.props===1?'':'s'}</div></div>${tag(li.score+' · '+lvl(li.score)[0],lvl(li.score)[1])}</div><details style="margin-top:8px"><summary class="mut" style="cursor:pointer">Ver desglose de su score</summary>${bars(WA,li.ver)}</details></div>
+${e&&!own?`<h2>Tu compatibilidad</h2><div class="card"><div class="row"><span>Tu score <b>${sMe}</b></span><span>Umbral aprox. del arrendador <b>${li.thr}</b></span></div><div class="bar"><i style="width:${Math.min(100,sMe)}%"></i></div><p style="margin:8px 0 0">${diff>=0?tag('Alta probabilidad','ok')+' Con tu puntaje podrías ser aceptado sin codeudor.':diff>=-25?tag('Posible con acudiente','warn')+' Probablemente te pida un codeudor o acudiente.':tag('Baja probabilidad','bad')+' Verifica más datos para mejorar tus opciones.'}</p></div>`:''}
+<div class="sec2"><h2>Reseñas</h2><span class="mut">${rv.length}</span></div>${rv.length?rv.map(x=>`<div class="card"><div class="row"><b>${esc(x.n)}</b><span class="star">${ic('star',13)} ${x.s}</span></div><p style="margin:4px 0">${esc(x.t||'Sin comentario.')}</p>${(x.tags||[]).map(t=>tag(esc(t),'neu')).join(' ')}${x.real?'':''}</div>`).join(''):'<p class="mut">Todavía no hay reseñas de este inmueble.</p>'}
+${e&&!own?`<div style="margin-top:10px"><button class="sm" data-a="report" data-i="${l.id}">${ic('flag',14)} Reportar anuncio</button> <button class="sm" data-a="share" data-i="${l.id}">${ic('share',14)} Compartir</button></div>${S.f.rep?`<div class="card"><b>¿Qué pasa con este anuncio?</b>${sel('rr','Motivo',[['f','Fotos que no corresponden'],['p','Precio distinto al publicado'],['s','Sospecha de estafa'],['o','Otro']],'f')}<button class="btn acc" data-a="rsend2" data-i="${l.id}" style="margin-top:10px">Enviar reporte</button></div>`:''}`:''}
+${own?gate('Estás viendo tu propio inmueble como lo ve un estudiante.'):''}
+${e?`<div class="fab2">${!idV(u)?gate('Verifica tu identidad en Perfil para escribir o solicitar.'):''}${myR?`<p style="margin:0 0 8px">${tag('Solicitud '+stReq(myR)[0].toLowerCase(),stReq(myR)[1])}</p><div class="two" style="margin-top:0"><button class="btn sec" data-a="chatnew" data-i="${l.id}" ${idV(u)?'':'disabled'}>Escribir</button><button class="btn acc" data-a="reqopen" data-i="${myR.id}">Ver solicitud</button></div>`:`<div class="two" style="margin-top:0"><button class="btn sec" data-a="chatnew" data-i="${l.id}" ${idV(u)?'':'disabled'}>${ic('chat',16)} Escribir</button><button class="btn sec" data-a="visitnew" data-i="${l.id}" ${idV(u)?'':'disabled'}>${ic('cal',16)} Visita</button><button class="btn acc" data-a="reqnew" data-i="${l.id}" ${idV(u)?'':'disabled'}>Solicitar</button></div>`}</div>`:''}`}
+/* ===== Mensajes ===== */
+function vInbox(){const ts=myThreads().sort((a,b)=>((b.msgs[b.msgs.length-1]||{}).ts||0)-((a.msgs[a.msgs.length-1]||{}).ts||0));
+  return `<div class="eb">Conversaciones</div><h1>Mensajes</h1><p class="mut">Los datos de contacto personales se ocultan hasta que el arriendo esté aceptado.</p>${ts.length?ts.map(t=>{const l=getL(t.lid)||{title:'Inmueble',art:1,type:'Apartamento'},last=t.msgs[t.msgs.length-1],un=(t.un||{})[S.role];return `<div class="tr" data-a="thread" data-i="${t.id}"><div class="th">${l.art!==undefined&&l.type?img(l,0):''}</div><div><div class="row"><b class="ell">${esc(est()?llInfo(t.aid).n:tName(t))}</b>${last?`<span class="mut">${fmtT(last.ts)}</span>`:''}</div><div class="mut ell">${esc(l.title)}</div><div class="ell" style="font-size:13px">${last?esc(last.t):'Sin mensajes'}</div></div>${un?`<span class="nb">${un}</span>`:''}</div>`}).join(''):`<div class="empty"><div class="dot">${ic('chat',22)}</div><b>Sin conversaciones</b><p>${est()?'Abre un inmueble y toca «Escribir» para hablar con el arrendador.':'Cuando un estudiante te escriba, la conversación aparecerá aquí.'}</p></div>`}`}
+function vThread(){const t=thById(S.tid);if(!t)return head('Mensajes')+'<div class="empty">Conversación no encontrada.</div>';const l=getL(t.lid)||{title:'Inmueble',art:1,type:'Apartamento'};
+  const other=est()?llInfo(t.aid).n:tName(t),typ=S.q.some(e=>e.k==='reply'&&e.a.tid===t.id),req=S.reqs.find(r=>r.lid===t.lid&&r.eid===t.eid&&r.status!=='cancelada');
+  const ch=est()?['¿Sigue disponible?','¿Qué servicios incluye?','¿Aceptan mascotas?','¿Piden codeudor?','¿Cuánto es el depósito?']:['Está disponible','Podemos agendar visita','Te respondo hoy','Aporta un acudiente si puedes'];
+  return `${head(other,'back')}<div class="tr" data-a="det" data-i="${t.lid}" style="margin-top:0"><div class="th">${l.type?img(l,0):''}</div><div><b class="ell">${esc(l.title)}</b><div class="mut">${l.price?priceTxt(l):''}</div></div>${ic('next',18)}</div>
+<div class="msgs">${t.msgs.map(m=>`<div class="b ${m.f==='sys'?'sys':m.f===S.role?'me':''}">${esc(m.t)}${m.f!=='sys'?`<small>${fmtT(m.ts)}</small>`:''}</div>`).join('')||'<span class="mut">Escribe el primer mensaje.</span>'}${typ?'<div class="typ">escribiendo…</div>':''}</div>
+<div class="qc">${ch.map(c=>`<button data-a="chipmsg" data-t="${esc(c)}">${esc(c)}</button>`).join('')}${est()&&!req?`<button data-a="visitnew" data-i="${t.lid}">${ic('cal',13)} Agendar visita</button>`:''}${req?`<button data-a="reqopen" data-i="${req.id}">Ver solicitud</button>`:''}</div>
+<div class="row"><input type="text" id="ct" placeholder="Escribe un mensaje" aria-label="Mensaje"><button class="sm fill" data-a="csend" style="padding:12px 16px">${ic('send',16)}</button></div>`}
+/* ===== Visitas ===== */
+function vVisitNew(){const l=getL(S.sel);if(!l)return head('Visita')+'<div class="empty">Inmueble no disponible.</div>';
+  const days=[...Array(8)].map((_,i)=>addD(i+1)),vd=S.vdate||days[0],slots=['09:00','10:00','11:00','14:00','15:00','16:00','17:00'],busy=s=>(hs(l.id+vd+s)%4===0)||S.visits.some(v=>v.lid===l.id&&v.date===vd&&v.slot===s&&v.status!=='cancelada'&&v.status!=='rechazada');
+  return `${head('Agendar visita')}<div class="tr" style="margin-top:0;cursor:default"><div class="th">${img(l,0)}</div><div><b class="ell">${esc(l.title)}</b><div class="mut ell">${esc(l.addr)}</div></div></div>
+<h3>Día</h3><div class="hs">${days.map(d=>`<button class="chip ${vd===d?'on':''}" data-a="vdate" data-d="${d}">${fmtD(d)}</button>`).join('')}</div>
+<h3>Hora</h3><div class="chips">${slots.map(s=>`<button class="chip ${S.vslot===s?'on':''}" data-a="vslot" data-s="${s}" ${busy(s)?'disabled':''}>${s}</button>`).join('')}</div><p class="mut" style="font-size:12px">Las horas deshabilitadas ya están ocupadas.</p>
+<h3>Modalidad</h3><div class="seg"><button data-a="vmode" data-m="presencial" class="${S.vmode==='presencial'?'on':''}">Presencial</button><button data-a="vmode" data-m="virtual" class="${S.vmode==='virtual'?'on':''}">Videollamada</button></div>
+${S.vmode==='presencial'?`<div class="note" style="background:var(--soft);color:var(--ink)">${ic('nfc',14)} ${l.nfc?'Al llegar, haz el check-in acercando el teléfono a la etiqueta NFC de la puerta.':'Este inmueble no tiene etiqueta NFC; marcarás la llegada desde la app.'}</div>`:''}
+<button class="btn acc" data-a="vsend" style="margin-top:12px" ${S.vslot?'':'disabled'}>Solicitar visita</button>`}
+function visCard(v){const l=getL(v.lid)||{title:'Inmueble',art:1,type:'Apartamento',nfc:false},st=stVis[v.status]||['—','neu'],e=est(),who=e?llInfo(l.ll||'S0').n:v.ename||eName({eid:v.eid});
+  let act='';
+  if(e){if(v.status==='confirmada'&&v.mode==='presencial')act=`<button class="sm fill" data-a="checkin" data-i="${v.id}">${ic('nfc',14)} ${l.nfc?'Check-in NFC':'Marcar llegada'}</button>`;if(v.status==='pendiente'||v.status==='confirmada')act+=` <button class="sm dng" data-a="vcancel" data-i="${v.id}">Cancelar</button>`;if(v.status==='cancelada'||v.status==='rechazada')act=`<button class="sm" data-a="visitnew" data-i="${v.lid}">Reprogramar</button>`}
+  else{if(v.status==='pendiente')act=`<button class="sm fill" data-a="vconf" data-i="${v.id}">Confirmar</button> <button class="sm dng" data-a="vrej" data-i="${v.id}">Rechazar</button>`;else if(v.status==='confirmada'&&v.sim)act=`<button class="sm" data-a="vdone" data-i="${v.id}">Marcar realizada</button>`}
+  return `<div class="card"><div class="row"><b>${fmtD(v.date)} · ${v.slot}</b>${tag(st[0],st[1])}</div><div class="mut">${esc(l.title)} · ${v.mode==='virtual'?'Videollamada':'Presencial'}<br>${e?'Arrendador: ':'Estudiante: '}${esc(who)}${v.nfc?' · '+ic('nfc',12)+' Visita verificada por NFC':''}</div>${act?`<div style="margin-top:8px">${act}</div>`:''}</div>`}
+/* ===== Solicitudes y arriendos (estudiante) ===== */
+function vTrips(){const rs=myReqs().sort((a,b)=>b.ts-a.ts),vs=myVis().sort((a,b)=>(a.date+a.slot).localeCompare(b.date+b.slot));
+  return `<div class="eb">Tu actividad</div><h1>Arriendos</h1>
+<h2>Solicitudes y contratos</h2>${rs.length?rs.map(r=>reqRow(r)).join(''):`<div class="empty"><div class="dot">${ic('doc',22)}</div><b>Aún no has solicitado ningún inmueble</b><p>Cuando solicites uno, aquí verás el estado, el contrato y las calificaciones.</p><button class="sm fill" data-a="tab" data-i="0">Explorar inmuebles</button></div>`}
+<h2>Visitas</h2>${vs.length?vs.map(visCard).join(''):'<p class="mut">No tienes visitas agendadas.</p>'}`}
+function reqRow(r){const l=getL(r.lid)||{title:'Inmueble',art:1,type:'Apartamento'},st=stReq(r),e=est();
+  return `<div class="tr" data-a="reqopen" data-i="${r.id}"><div class="th">${img(l,0)}</div><div><b class="ell">${esc(e?l.title:eName(r))}</b><div class="mut ell">${e?esc(l.addr||''):esc(l.title)} · ${r.months} meses</div><div style="margin-top:3px">${tag(st[0],st[1])}${!e&&r.status==='enviada'?' '+tag('Score '+eScore(r),lvl(eScore(r))[1]):''}</div></div>${ic('next',18)}</div>`}
+function vReqForm(){const l=getL(S.sel);if(!l)return head('Solicitud')+'<div class="empty">Inmueble no disponible.</div>';const s=scoreU(me()),li=llInfo(l.ll);
+  const st=fv('rs',l.avail>addD(7)?l.avail:addD(7)),ms=Math.max(l.minM,+fv('rm',l.minM));
+  return `${head('Confirmar solicitud')}<div class="tr" style="margin-top:0;cursor:default"><div class="th">${img(l,0)}</div><div><b class="ell">${esc(l.title)}</b><div class="mut">${priceTxt(l)}</div></div></div>
+${fld('rs','Fecha de inicio','date','',l.avail>addD(7)?l.avail:addD(7),`min="${l.avail}"`)}
+${sel('rm','Duración',[3,6,9,12].filter(m=>m>=l.minM).map(m=>[m,m+' meses']),ms)}
+${sel('ro','Personas que vivirán',[[1,'1 persona'],[2,'2 personas']],1)}
+<label for="rmsg">Mensaje al arrendador</label><textarea id="rmsg" data-f placeholder="Cuéntale quién eres y por qué te interesa.">${esc(fv('rmsg','Hola, soy estudiante y me interesa el inmueble. ¿Podemos coordinar?'))}</textarea>
+<div class="card"><div class="row"><b>Lo que verá el arrendador</b>${tag(s+' · '+lvl(s)[0],lvl(s)[1])}</div>${bars(WE,me().ver)}</div>
+<div class="card"><table><tr><td>Pago inicial estimado</td><td style="text-align:right"><b>${money(initCost(l))}</b></td></tr><tr><td>Costo del contrato (${ms} meses)</td><td style="text-align:right">${money((l.price+(l.adm||0))*ms)}</td></tr></table></div>
+<p class="mut">El pago se hace directamente entre las partes, fuera de la app.</p>
+<label class="chk"><input type="checkbox" id="rt" data-f ${fv('rt',false)?'checked':''}> Autorizo compartir mi score y mis verificaciones con el arrendador.</label>${S.err.rt?`<div class="err">${S.err.rt}</div>`:''}
+<button class="btn acc" data-a="rsend" data-i="${l.id}" ${S.busy?'disabled':''}>${S.busy?'Enviando…':'Enviar solicitud'}</button>`}
+function vCod(){const r=reqById(S.rid);if(!r)return head('Codeudor')+'<div class="empty">Solicitud no encontrada.</div>';
+  return `${head('Aportar codeudor o acudiente')}<p class="mut">Tu arrendador pidió un respaldo adicional. Puede ser un familiar o un acudiente; no necesita finca raíz en la ciudad.</p>${fld('cn','Nombre del codeudor','text','Nombre y apellido','')}${fld('cp','Celular','text','3001234567','')}${sel('cr','Parentesco',[['Madre/Padre','Madre o padre'],['Familiar','Otro familiar'],['Acudiente','Acudiente legal']],'Madre/Padre')}<button class="btn acc" data-a="codsend" style="margin-top:14px">Enviar al arrendador</button>`}
+/* ===== Notificaciones ===== */
+function vNotif(){const ns=myNotifs();return `${head('Notificaciones','back',ns.length?`<button class="sm" data-a="nread">Marcar leídas</button>`:'')}${ns.length?ns.map(n=>`<div class="tr" data-a="ncl" data-i="${n.id}" style="${n.read?'':'border-color:var(--acc)'}"><span class="dot ${n.read?'':'on'}">${ic('bell',16)}</span><div><div>${esc(n.t)}</div><div class="mut">${new Date(n.ts).toLocaleString('es-CO',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div></div></div>`).join(''):`<div class="empty"><div class="dot">${ic('bell',22)}</div><b>Sin notificaciones</b><p>Aquí verás respuestas, visitas y solicitudes.</p></div>`}`}
+
+/* ===== Detalle de solicitud / contrato (ambos roles) ===== */
+const stars=n=>`<div class="stars">${[1,2,3,4,5].map(i=>`<button class="${S.rstars>=i?'on':''}" data-a="rate" data-n="${i}" aria-label="${i} estrella${i>1?'s':''}">${ic('star',20)}</button>`).join('')}</div>`;
+function vReq(){const r=reqById(S.rid);if(!r)return head('Solicitud')+'<div class="empty">Solicitud no encontrada.</div>';const l=getL(r.lid);if(!l)return head('Solicitud')+'<div class="empty">El inmueble ya no existe.</div>';
+  const e=est(),li=llInfo(l.ll),st=stReq(r),s=eScore(r),mine=e?'est':'arr',other=e?li.n:eName(r),done=(a)=>a?'done':'';
+  const steps=[['Solicitud enviada',1],['Aceptada por el arrendador',['aceptada'].includes(r.status)||r.reg],['Firmada por ambos',r.ce&&r.ca],['Acuerdo registrado',!!r.reg],['Arriendo finalizado',!!r.ended]];
+  let body='';
+  if(r.status==='cancelada')body=gate('Esta solicitud fue cancelada.');
+  else if(r.status==='rechazada')body=`<div class="note">${esc(r.reason||'La solicitud no fue aceptada.')}</div>`+(e?`<button class="btn sec" data-a="tab" data-i="0">Buscar otros inmuebles</button>`:'');
+  else if(r.status==='enviada'){
+    body=e?`<div class="card"><b>Esperando respuesta</b><p class="mut" style="margin:4px 0 0">Te avisaremos cuando el arrendador responda.</p></div><button class="btn dng" data-a="rcancel" data-i="${r.id}">Cancelar solicitud</button>`
+    :`<div class="card"><div class="row"><b>Compatibilidad</b>${tag(s>=li.thr?'Cumple tu umbral':s>=li.thr-25?'Cerca del umbral':'Bajo tu umbral',s>=li.thr?'ok':s>=li.thr-25?'warn':'bad')}</div><p class="mut" style="margin:4px 0">Score ${s} · tu umbral ${li.thr}${r.cod?' · con codeudor aportado':''}</p></div><div class="two"><button class="btn acc" data-a="racc" data-i="${r.id}">Aceptar</button><button class="btn sec" data-a="rcod" data-i="${r.id}">Pedir codeudor</button></div><button class="btn dng" data-a="rrej" data-i="${r.id}" style="margin-top:10px">Rechazar</button>`}
+  else if(r.status==='codeudor')body=e?`<div class="note">El arrendador pide un codeudor o acudiente. No necesita finca raíz en Bogotá.</div><button class="btn acc" data-a="codform" data-i="${r.id}">Aportar codeudor</button><button class="btn dng" data-a="rcancel" data-i="${r.id}" style="margin-top:10px">Cancelar solicitud</button>`:`<div class="card"><b>Esperando al estudiante</b><p class="mut" style="margin:4px 0 0">Le pediste un codeudor o acudiente.</p></div>`;
+  else if(r.status==='aceptada'){
+    body=`<div class="card"><b>Contrato</b><pre class="pre">${esc(contractText(r,l))}</pre><button class="sm" data-a="copyc" data-i="${r.id}">${ic('copy',14)} Copiar contrato</button></div>
+    <div class="card"><div class="row"><span>Estudiante</span>${r.ce?tag('Firmó','ok'):tag('Pendiente','warn')}</div><div class="row" style="margin-top:6px"><span>Arrendador</span>${r.ca?tag('Firmó','ok'):tag('Pendiente','warn')}</div></div>
+    ${r.reg?`<div class="note" style="background:var(--okb);color:var(--ok)">${ic('check',14)} Acuerdo registrado · ${r.reg.id} · ${esc(r.reg.f)}</div><button class="btn sec" data-a="end" data-i="${r.id}">Finalizar arriendo</button>`:(e?!r.ce:!r.ca)?`<button class="btn acc" data-a="sign" data-i="${r.id}">Firmar contrato</button>`:'<p class="mut">Esperando la firma de la otra parte…</p>'}
+    ${!r.reg?`<button class="btn dng" data-a="rcancel" data-i="${r.id}" style="margin-top:10px">Cancelar</button>`:''}`}
+  if(r.reg&&r.status==='aceptada'&&false)body='';
+  let rate='';
+  if(r.ended){const mr=(r.rt||{})[mine],or=(r.rt||{})[e?'arr':'est'];
+    rate=`<h2>Calificaciones</h2>${mr?`<div class="card"><div class="row"><b>Tu calificación</b><span class="star">${ic('star',13)} ${mr.n}</span></div><p style="margin:4px 0">${esc(mr.txt||'Sin comentario.')}</p>${(mr.tags||[]).map(t=>tag(esc(t),'neu')).join(' ')}</div>`
+    :`<div class="card"><b>${e?'Califica el inmueble y al arrendador':'Califica al estudiante'}</b>${stars(S.rstars)}<div class="chips" style="margin-top:8px">${(e?TAGS_E:TAGS_A).map(t=>`<button class="chip ${S.rtags.includes(t)?'on':''}" data-a="rtag" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div><label for="rtxt">Comentario (opcional)</label><textarea id="rtxt" data-f placeholder="Cuéntanos cómo fue la experiencia">${esc(fv('rtxt',''))}</textarea>${S.err.rt?`<div class="err">${S.err.rt}</div>`:''}<button class="btn acc" data-a="rsubmit" data-i="${r.id}" style="margin-top:10px">Enviar calificación</button><p class="mut" style="font-size:12px">Las reseñas mutuas suman puntos al score de ambos.</p></div>`}
+    ${or?`<div class="card"><div class="row"><b>Calificación de ${esc(other)}</b><span class="star">${ic('star',13)} ${or.n}</span></div>${(or.tags||[]).map(t=>tag(esc(t),'neu')).join(' ')}</div>`:'<p class="mut">La otra parte aún no te califica.</p>'}`}
+  return `${head('Solicitud')}<div class="tr" data-a="det" data-i="${l.id}" style="margin-top:0"><div class="th">${img(l,0)}</div><div><b class="ell">${esc(l.title)}</b><div class="mut ell">${esc(e?li.n:eName(r))} · ${r.months} meses · inicio ${fmtL(r.start)}</div><div style="margin-top:3px">${tag(st[0],st[1])}</div></div>${ic('next',18)}</div>
+${!e?`<div class="card"><div class="row"><b>${esc(eName(r))}</b>${tag(s+' · '+lvl(s)[0],lvl(s)[1])}</div><p class="mut" style="margin:4px 0">${esc(r.o||(uById(r.eid)||{}).origin||'')}${r.o||(uById(r.eid)||{}).origin?' · ':''}${r.occ||1} persona${(r.occ||1)>1?'s':''}</p>${r.msg?`<p style="margin:4px 0">«${esc(r.msg)}»</p>`:''}${r.cod?`<p class="mut" style="margin:4px 0">Codeudor: ${esc(r.cod.n||'Aportado')} (${esc(r.cod.rel||'')})</p>`:''}<details><summary class="mut" style="cursor:pointer">Ver verificaciones</summary>${bars(WE,eVer(r))}</details></div>`:''}
+<ul class="tl">${steps.map(x=>`<li class="${done(x[1])}"><span class="dot ${x[1]?'on':''}">${ic(x[1]?'check':'clock',14)}</span>${x[0]}</li>`).join('')}</ul>${body}${rate}`}
+/* ===== Contratos (arrendador) y solicitudes ===== */
+function vLReq(){const u=me(),rs=myReqs().sort((a,b)=>b.ts-a.ts),pend=rs.filter(r=>r.status==='enviada'||r.status==='codeudor'),vs=myVis().filter(v=>!['cancelada','rechazada','realizada'].includes(v.status)).sort((a,b)=>(a.date+a.slot).localeCompare(b.date+b.slot));
+  return `<div class="eb">Bandeja</div><h1>Solicitudes</h1>
+<div class="card"><div class="row"><b>Umbral de confianza</b><b id="thrv">${u.thr||60}</b></div><input type="range" id="thr" min="20" max="90" step="5" value="${u.thr||60}" aria-label="Umbral de score"><p class="mut" style="margin:6px 0 0">Los estudiantes con este score o más son compatibles sin codeudor. Es una guía: tú decides cada solicitud.</p></div>
+<h2>Por responder (${pend.length})</h2>${pend.length?pend.map(reqRow).join(''):`<div class="empty"><div class="dot">${ic('inbox',22)}</div><b>No hay solicitudes pendientes</b><p>${S.props.some(p=>p.owner===S.uid&&p.status==='publicado')?'Cuando un estudiante solicite uno de tus inmuebles, aparecerá aquí.':'Publica un inmueble verificado para recibir solicitudes.'}</p></div>`}
+<h2>Visitas por atender</h2>${vs.length?vs.map(visCard).join(''):'<p class="mut">No hay visitas pendientes.</p>'}`}
+function vContracts(){const rs=myReqs().filter(r=>r.status==='aceptada'||r.reg||r.ended).sort((a,b)=>b.ts-a.ts);
+  return `<div class="eb">Acuerdos</div><h1>Contratos</h1>${rs.length?rs.map(reqRow).join(''):`<div class="empty"><div class="dot">${ic('doc',22)}</div><b>Aún no hay contratos</b><p>Cuando aceptes una solicitud, el contrato y las firmas aparecerán aquí.</p></div>`}`}
+/* ===== Inmuebles del arrendador ===== */
+const pSt={borrador:['Borrador','neu'],publicado:['Publicado','ok'],revision:['En revisión','warn'],rechazado:['Rechazado','bad'],pausado:['Pausado','neu']};
+function vProps(){const u=me(),ps=S.props.filter(p=>p.owner===S.uid).map(pL);const k=u.ver||{};
+  return `<div class="eb">Hola, ${esc((u.name||'').split(' ')[0])}</div><h1>Tus inmuebles</h1>
+${!idA(u)?`<div class="banner" data-a="tab" data-i="4"><div class="g"><small>Falta un paso</small><b>Verifica tu identidad para publicar</b></div>${ic('next')}</div>`:`<div class="banner" data-a="tab" data-i="4"><div class="g"><small>Tu score de confianza</small><b>${scoreU(u)} · Nivel ${lvl(scoreU(u))[0]}</b></div>${ic('next')}</div>`}
+<button class="btn acc" data-a="pnew" ${idA(u)?'':'disabled'}>${ic('plus',16)} Publicar inmueble</button>
+${ps.length?ps.map(p=>{const st=pSt[p.status]||['—','neu'],nr=S.reqs.filter(r=>r.lid===p.id&&r.status==='enviada').length;return `<div class="lc" data-a="pman" data-i="${p.id}"><div class="ph">${img(p,0)}<div class="ov">${tag(st[0],st[1],'on-img')}${p.nfc?tag(ic('nfc',12)+' NFC','neu','on-img'):''}</div></div><div class="lb"><b>${esc(p.title)}</b><span class="mut">${esc(p.addr)} · ${esc(p.barrio)}</span><div class="row"><span class="price">${priceTxt(p)}</span><span class="mut">${nr?nr+' solicitud'+(nr>1?'es':''):'Sin solicitudes'}</span></div></div></div>`}).join(''):`<div class="empty"><div class="dot">${ic('bld',22)}</div><b>Aún no publicas inmuebles</b><p>Crea un anuncio, verifica su ubicación con una foto y empieza a recibir estudiantes verificados.</p></div>`}`}
+function vPropNew(){const s=S.pstep,E=S.err,dsel=(id,d)=>fv(id,d);
+  const bar=`<div class="bar" style="margin:0 0 6px"><i style="width:${s*33.4}%"></i></div><div class="eb">Paso ${s} de 3</div>`;
+  let b='';
+  if(s===1)b=`<h1>Datos básicos</h1>${fld('pt','Título del anuncio','text','Ej. Habitación luminosa cerca de la U','')}${sel('pty','Tipo',TYPES.map(t=>[t,t]),'Apartaestudio')}${fld('pb','Barrio','text','Ej. Usaquén','')}${fld('pa','Dirección','text','Ej. Cra 9 #131A-20','')}
+  <div class="two"><div>${fld('pp','Canon mensual (COP)','text','1200000','')}</div><div>${fld('pad','Administración (COP)','text','0 si está incluida','')}</div></div>
+  <div class="two"><div>${fld('par','Área (m²)','text','28','')}</div><div>${sel('pbd','Alcobas',[1,2,3,4,5].map(n=>[n,n]),1)}</div></div><div class="two"><div>${sel('pba','Baños',[1,2,3,4].map(n=>[n,n]),1)}</div><div>${sel('pfu','Amoblado',[['yes','Amoblado'],['no','Sin amoblar']],'yes')}</div></div>`;
+  else if(s===2)b=`<h1>Servicios y reglas</h1><h3>Servicios incluidos en el canon</h3><div class="chips">${Object.keys(SERV).map(k=>tgl('pserv',k,SERV[k],fa('pserv').includes(k))).join('')}</div><h3>Comodidades</h3><div class="chips">${Object.keys(AMEN).map(k=>tgl('pamen',k,AMEN[k],fa('pamen').includes(k))).join('')}</div><h3>Reglas de la casa</h3><div class="chips">${RULES.map((r,i)=>tgl('prules',i,r,fa('prules').includes(String(i))||fa('prules').includes(i))).join('')}</div>
+  ${sel('pmm','Contrato mínimo',[[3,'3 meses'],[6,'6 meses'],[9,'9 meses'],[12,'12 meses']],6)}${fld('pav','Disponible desde','date','',addD(7),`min="${addD(0)}"`)}<label for="pd">Descripción</label><textarea id="pd" data-f placeholder="Describe el inmueble, la zona y lo que lo hace especial">${esc(fv('pd',''))}</textarea>${E.pd?`<div class="err">${E.pd}</div>`:''}`;
+  else b=`<h1>Revisa y crea</h1><div class="card"><b>${esc(fv('pt',''))}</b><p class="mut" style="margin:4px 0">${esc(fv('pty','Apartaestudio'))} · ${esc(fv('pb',''))} · ${esc(fv('pa',''))}</p><div class="row"><span>Canon</span><b>${money(+String(fv('pp','0')).replace(/\D/g,''))}</b></div><div class="row"><span>Administración</span><b>${+String(fv('pad','0')).replace(/\D/g,'')?money(+String(fv('pad','0')).replace(/\D/g,'')):'Incluida'}</b></div></div><div class="note" style="background:var(--soft);color:var(--ink)">Después de crear el anuncio verificarás la ubicación con una foto geolocalizada. Solo así se publica con la insignia «Verificado».</div>`;
+  return `${head('Publicar inmueble')}${bar}${b}<div class="two" style="margin-top:14px">${s>1?`<button class="btn sec" data-a="pstepb">Atrás</button>`:'<span></span>'}<button class="btn acc" data-a="${s<3?'pstepn':'pcreate'}">${s<3?'Siguiente':'Crear anuncio'}</button></div>`}
+function vPropVer(){const p=S.props.find(x=>x.id===S.pid);if(!p)return head('Verificación')+'<div class="empty">Inmueble no encontrado.</div>';const g=p.geo,run=S.gstep!==null,cs=['Abriendo la cámara…','Obteniendo ubicación GPS…','Comparando con la dirección…'];
+  return `${head('Verificar ubicación')}<p class="mut">Toma una foto dentro del inmueble. La app guarda las coordenadas GPS y las compara con la dirección declarada (${esc(p.addr)}).</p>
+<div class="card"><b>Reglas de verificación</b><ul class="ul"><li>Hasta 50 m: <b>Verificada</b></li><li>51 a 150 m: <b>Revisión manual</b> (un revisor confirma)</li><li>Más de 150 m: <b>Rechazada</b></li><li>Las fotos de la galería no se aceptan</li></ul></div>
+<h3>Origen de la foto</h3><div class="seg"><button data-a="gmode" data-m="app" class="${S.mode!=='gal'?'on':''}">Cámara de la app</button><button data-a="gmode" data-m="gal" class="${S.mode==='gal'?'on':''}">Desde galería</button></div>
+<h3>Ubicación</h3><div class="seg"><button data-a="gsrc" data-m="sim" class="${S.src!=='real'?'on':''}">GPS simulado</button><button data-a="gsrc" data-m="real" class="${S.src==='real'?'on':''}">GPS del equipo</button></div>
+${S.src!=='real'?`<label for="goff">Distancia simulada a la dirección: <b id="goffv">${S.off} m</b></label><input type="range" id="goff" min="0" max="250" step="5" value="${S.off}"><p class="mut" style="font-size:12px">Prueba 20 m (verificada), 100 m (revisión) y 200 m (rechazada).</p>`:'<p class="mut" style="font-size:12px">Si el equipo no entrega GPS, se usa la simulación.</p>'}
+<button class="btn acc" data-a="geo" data-i="${p.id}" ${run?'disabled':''}>${ic('camera',16)} ${run?'Verificando…':g?'Repetir verificación':'Tomar foto y verificar'}</button>
+${run?cs.map((t,i)=>S.gstep>=i?`<div class="stp"><span class="dot ${S.gstep>i?'on':''}" style="width:22px;height:22px">${ic(S.gstep>i?'check':'clock',14)}</span>${t}</div>`:'').join(''):''}
+${g&&!run?`<div class="card" style="margin-top:12px"><div class="row"><b>${esc(g.r[0])}</b>${tag(g.d==null?'—':g.d+' m',g.r[1])}</div><p style="margin:4px 0">${esc(g.r[2])}</p>${g.d!=null?geoMap(g):''}${g.d!=null?`<div style="margin-top:8px;border-radius:14px;overflow:hidden">${scene('fachada',p.art,['GPS '+p.lat.toFixed(5)+', '+p.lng.toFixed(5),new Date(g.ts).toLocaleString('es-CO')+' · '+(g.real?'GPS del equipo':'GPS app')])}</div>`:''}${p.status==='publicado'?`<div class="note" style="background:var(--okb);color:var(--ok);margin-bottom:0">Tu inmueble ya está publicado.</div>`:p.status==='revision'?`<div class="note" style="margin-bottom:0">En revisión manual. Se aprobará en unos segundos (simulado).</div>`:''}</div><button class="btn sec" data-a="tab" data-i="0" style="margin-top:10px">Ir a mis inmuebles</button>`:''}
+${(p.log||[]).length?`<h3>Historial de intentos</h3>${p.log.slice().reverse().map(x=>`<div class="mut">${esc(x[0])} · ${x[1]} m · ${esc(x[2])}</div>`).join('')}`:''}`}
+function vPropMan(){const p0=S.props.find(x=>x.id===S.pid);if(!p0)return head('Inmueble')+'<div class="empty">Inmueble no encontrado.</div>';const p=pL(p0),st=pSt[p0.status]||['—','neu'],rs=S.reqs.filter(r=>r.lid===p0.id);
+  return `${head('Gestionar inmueble')}<div class="lc" data-a="det" data-i="${p0.id}" style="margin-top:0"><div class="ph">${img(p,0)}<div class="ov">${tag(st[0],st[1],'on-img')}</div></div><div class="lb"><b>${esc(p0.title)}</b><span class="mut">${esc(p0.addr)} · ${esc(p0.barrio)}</span><span class="mut">Toca para verlo como lo ve un estudiante</span></div></div>
+<div class="grid3"><div class="ft"><b>${p0.views||0}</b>vistas</div><div class="ft"><b>${rs.length}</b>solicitudes</div><div class="ft"><b>${p0.geo&&p0.geo.d!=null?p0.geo.d+' m':'—'}</b>GPS</div></div>
+<h2>Ubicación verificada</h2><div class="card"><div class="row"><b>${p0.geo?esc(p0.geo.r[0]):'Sin verificar'}</b>${vt(p).replace(' on-img','')}</div><button class="sm" data-a="pver" data-i="${p0.id}" style="margin-top:8px">${p0.geo?'Repetir verificación':'Verificar ahora'}</button></div>
+<h2>Editar anuncio</h2>${fld('ep','Canon mensual (COP)','text','',String(p0.price))}${fld('ea','Administración (COP)','text','',String(p0.adm||0))}${fld('ev','Disponible desde','date','',p0.avail)}<button class="btn acc" data-a="psave" data-i="${p0.id}" style="margin-top:10px">Guardar cambios</button>
+<h2>Etiqueta NFC</h2><div class="card"><p class="mut" style="margin:0 0 8px">Pega una etiqueta NFC en la puerta. El estudiante hace check-in al llegar a la visita y queda registrado que estuvo en el inmueble.</p>${p0.geo&&p0.geo.v==='ok'?`<div class="tg" style="border:0;padding:0"><span>${p0.nfc?'Etiqueta activa':'Etiqueta sin activar'}</span><button class="sm ${p0.nfc?'':'fill'}" data-a="pnfc" data-i="${p0.id}">${p0.nfc?'Desactivar':'Activar etiqueta NFC'}</button></div>`:'<p class="mut" style="margin:0">Disponible cuando el inmueble esté verificado.</p>'}</div>
+<h2>Visibilidad</h2>${['publicado','pausado'].includes(p0.status)?`<button class="btn sec" data-a="ppause" data-i="${p0.id}">${p0.status==='pausado'?'Reanudar anuncio':'Pausar anuncio'}</button>`:'<p class="mut">Se publica al completar la verificación de ubicación.</p>'}
+${rs.length?`<h2>Solicitudes</h2>${rs.map(reqRow).join('')}`:''}
+<h2>Zona de riesgo</h2>${S.delAsk===p0.id?`<div class="card"><b>¿Eliminar este inmueble?</b><p class="mut">Se borran el anuncio y sus solicitudes. No se puede deshacer.</p><div class="two"><button class="btn sec" data-a="pdel0">Cancelar</button><button class="btn dng" data-a="pdel2" data-i="${p0.id}">Eliminar</button></div></div>`:`<button class="btn dng" data-a="pdel" data-i="${p0.id}">Eliminar inmueble</button>`}`}
+/* ===== Perfil ===== */
+function vProfile(){const u=me(),e=est(),s=scoreU(u),L=lvl(s),npk=[['msg','Mensajes nuevos'],['req','Solicitudes y contratos'],['visit','Visitas']],myRs=S.reqs.filter(r=>e?r.eid===u.id:(getL(r.lid)||{}).ll===u.id),rt=myRs.filter(r=>r.rt&&r.rt[e?'arr':'est']);
+  const avg=rt.length?(rt.reduce((a,r)=>a+r.rt[e?'arr':'est'].n,0)/rt.length).toFixed(1):null;
+  return `<div class="eb">${e?'Estudiante':'Arrendador'}</div><h1>Perfil</h1>
+<div class="card"><div class="row"><div><b style="font-size:17px">${esc(u.name)}</b><div class="mut">${esc(u.email)}</div></div>${tag(L[0],L[1])}</div><div class="big" style="font-size:44px;margin:8px 0 2px">${s}<span class="mut" style="font-size:16px">/100</span></div><div class="bar"><i style="width:${s}%"></i></div><p class="mut" style="margin:6px 0 0">Score de confianza${avg?` · calificación promedio ${avg}`:''}</p></div>
+<h2>Verificaciones</h2><div class="card">${verList()}</div>${e&&!idV(u)||!e&&!idA(u)?gate(e?'Completa correo, carné y selfie para escribir y solicitar.':'Completa cédula y selfie para publicar.'):''}
+<h2>Tus datos</h2>${fld('pn','Nombre','text','',u.name)}${e?fld('po','Ciudad de origen','text','',u.origin||''):''}<button class="btn sec" data-a="psaveu" style="margin-top:10px">Guardar datos</button>
+<h2>Notificaciones</h2>${npk.map(n=>`<div class="tg"><span>${n[1]}</span><input type="checkbox" class="sw" data-a="ntog" data-k="${n[0]}" ${(u.np||{})[n[0]]!==false?'checked':''} aria-label="${n[1]}"></div>`).join('')}
+<h2>Privacidad y seguridad</h2><button class="btn sec" data-a="safety">${ic('shield',16)} Consejos de seguridad</button><button class="btn sec" data-a="copydata" style="margin-top:10px">${ic('copy',16)} Copiar mis datos</button>
+${S.delAsk==='acct'?`<div class="card"><b>¿Eliminar tu cuenta?</b><p class="mut">Se borran tu perfil, mensajes, solicitudes e inmuebles de este navegador.</p><div class="two"><button class="btn sec" data-a="pdel0">Cancelar</button><button class="btn dng" data-a="deldata2">Eliminar todo</button></div></div>`:`<button class="btn dng" data-a="deldata" style="margin-top:10px">Eliminar mi cuenta y datos</button>`}
+<button class="btn sec" data-a="out" style="margin-top:10px">Cerrar sesión</button>${S.showData?`<pre class="pre">${esc(userData(u))}</pre>`:''}`}
+function vSafety(){return `${head('Seguridad')}<h1>Arrienda con tranquilidad</h1><div class="card"><ul class="ul"><li>Haz siempre la primera visita acompañado o avisa a alguien de tu confianza.</li><li>No pagues depósitos ni canon antes de ver el inmueble y firmar el contrato.</li><li>Desconfía de precios muy por debajo del mercado.</li><li>Prefiere inmuebles con la insignia «Verificado»: la foto fue tomada en el sitio.</li><li>Los datos de contacto se ocultan hasta que el arriendo esté aceptado: úsalo a tu favor.</li><li>Reporta cualquier anuncio sospechoso desde el detalle del inmueble.</li><li>Los pagos se hacen fuera de la app, entre las partes.</li></ul></div><p class="mut">CampusHogar es un prototipo académico y no reemplaza asesoría legal.</p>`}
+/* ===== Más información ===== */
+function infoHtml(){return `<div class="row"><h2 style="margin:0">CampusHogar</h2><button class="back" data-a="info" aria-label="Cerrar">${ic('x',18)}</button></div><p class="mut">Prototipo funcional de la propuesta de innovación (Gestión de Tecnología e Innovación · UEB 2026-2). Todo es simulado y se guarda solo en este navegador.</p>
+<h3>Recorrido sugerido</h3><ol><li><b>Estudiante</b>: explora, filtra, abre un inmueble, escribe, agenda una visita y solicita.</li><li>Un arrendador simulado decide según el score; si te pide codeudor, aporta uno.</li><li>Firma el contrato; el acuerdo queda registrado. Finaliza y califica.</li><li><b>Arrendador</b>: publica un inmueble, verifica la ubicación (prueba 20, 100 y 200 m), activa la etiqueta NFC y responde solicitudes.</li></ol>
+<h3>Qué es real y qué es simulado</h3><ul><li>Real: lógica de score, filtros, reglas de verificación GPS, máscara de contactos y estados de la solicitud.</li><li>Simulado: OCR, biometría, lectura NFC, GPS (opcional del equipo), mapas, fotos, respuestas de arrendadores y estudiantes, firma y pagos.</li><li>Seguridad: la contraseña usa un hash débil de demostración; en producción irían bcrypt y servidor.</li></ul>
+<h3>Reglas del score</h3><ul><li>Estudiante: correo 15, carné 20, selfie 25, acudiente 15, reseñas 25.</li><li>Arrendador: cédula 20, selfie 20, documento 15, GPS 25, reseñas 20.</li></ul>
+<h3>Aceptación sin codeudor</h3><p>Cada arrendador define un umbral. Si tu score lo alcanza, puede aceptar sin codeudor con finca raíz; si queda a menos de 25 puntos, puede pedir un acudiente. La decisión final siempre es del arrendador.</p>
+<button class="btn" data-a="reset" style="margin-top:10px">Reiniciar demostración</button>`}
+const VIEWS={welcome:vWel,auth:vAuth,onb:vOnb,filt:vFilt,det:vDet,thread:vThread,vfy:vVfy,visitnew:vVisitNew,req:vReq,reqnew:vReqForm,cod:vCod,notif:vNotif,pnew:vPropNew,pver:vPropVer,pman:vPropMan,safety:vSafety,
+  main:()=>est()?[vExplore,vSaved,vInbox,vTrips,vProfile][S.tab]():[vProps,vLReq,vInbox,vContracts,vProfile][S.tab]()};
+
+/* ===== Utilidades de acciones ===== */
+function copy(t,msg){const ok=()=>toast(msg||'Copiado al portapapeles');try{navigator.clipboard.writeText(t).then(ok).catch(()=>toast('No se pudo copiar automáticamente.'))}catch(e){toast('No se pudo copiar automáticamente.')}}
+const ntoNum=v=>+String(v||'').replace(/\D/g,'');
+function openGo(g){if(!g)return;if(g.scr==='main'){S.nav=[];S.scr='main';S.tab=g.tab||0;save();render()}else{const p=Object.assign({},g);delete p.scr;go(g.scr,p)}}
+function newReq(l){const E={},rs=fv('rs',l.avail>addD(7)?l.avail:addD(7));
+  if(!rs||rs<l.avail)E.rs='Elige una fecha desde '+fmtL(l.avail)+' en adelante.';if(!S.f.rt)E.rt='Debes autorizar compartir tu score.';
+  S.err=E;if(Object.keys(E).length){render();return}
+  S.busy=true;render();setTimeout(()=>{S.busy=false;const msg=String(fv('rmsg','')).trim()||'Hola, me interesa el inmueble.';
+    const r={id:nid('r'),lid:l.id,eid:S.uid,ts:Date.now(),status:'enviada',start:rs,months:Math.max(l.minM,+fv('rm',l.minM)),occ:+fv('ro',1),msg,cod:null};S.reqs.push(r);
+    const t=openThread(l.id);t.msgs.push({f:'est',t:msg.replace(CONTACT,'••••••'),ts:Date.now()});
+    if(isSeed(l.ll))sched(3500+Math.random()*1500,'decide',{rid:r.id});else{t.un.arr++;nt(l.ll,`Nueva solicitud de ${me().name.split(' ')[0]} para ${l.title}`,{scr:'main',tab:1},'req')}
+    const p=S.props.find(x=>x.id===l.id);if(p)p.saves=(p.saves||0)+1;
+    S.nav.pop();Object.assign(S,{scr:'req',rid:r.id,f:{},err:{}});S.nav.push({scr:'main',tab:3});save();render();toast('Solicitud enviada')},700)}
+function endReq(r){r.ended=true;r.endTs=Date.now();const l=getL(r.lid),ll=l&&l.ll;
+  if(isSeed(ll)&&!isSim(r.eid))sched(3000,'simrate',{rid:r.id,who:'arr'});
+  if(isSim(r.eid))sched(3000,'simrate',{rid:r.id,who:'est'});
+  [r.eid,ll].forEach(u=>{if(u&&u!==S.uid&&uById(u))nt(u,'El arriendo fue finalizado. Ya puedes calificar.',{scr:'req',rid:r.id},'req')});save();render();toast('Arriendo finalizado. Califica la experiencia.')}
+function createProp(){const g=id=>String(S.f[id]||'').trim(),E={},price=ntoNum(S.f.pp),adm=ntoNum(S.f.pad),area=ntoNum(S.f.par);
+  const d={title:g('pt'),type:fv('pty','Apartaestudio'),uni:fv('pun','ueb'),barrio:g('pb'),addr:g('pa'),price,adm,area,beds:+fv('pbd',1),baths:+fv('pba',1),furn:fv('pfu','yes')==='yes',serv:fa('pserv'),amen:fa('pamen'),rules:fa('prules').map(i=>RULES[+i]).filter(Boolean),minM:+fv('pmm',6),avail:fv('pav',addD(7)),desc:g('pd')};
+  if(d.desc.length<15){S.err={pd:'Describe el inmueble en al menos 15 caracteres.'};S.pstep=2;render();return}
+  const p=mkProp(S.uid,d);S.props.push(p);save();S.nav.pop();Object.assign(S,{scr:'pver',pid:p.id,f:{},err:{}});S.nav.push({scr:'main',tab:0});save();render();toast('Anuncio creado. Falta verificar la ubicación.')}
+function stepVal(){const g=id=>String(S.f[id]||'').trim(),E={};
+  if(S.pstep===1){if(g('pt').length<8)E.pt='Escribe un título de al menos 8 caracteres.';if(g('pb').length<3)E.pb='Escribe el barrio.';if(g('pa').length<6)E.pa='Escribe la dirección completa.';
+    const p=ntoNum(S.f.pp);if(p<300000||p>8000000)E.pp='Entre $300.000 y $8.000.000.';if(S.f.pad&&ntoNum(S.f.pad)>2000000)E.pad='Máximo $2.000.000.';const a=ntoNum(S.f.par);if(a<6||a>400)E.par='Entre 6 y 400 m².'}
+  S.err=E;return !Object.keys(E).length}
+/* ===== Clics ===== */
+document.addEventListener('click',ev=>{const el=ev.target.closest('[data-a]');if(!el||el.disabled)return;const a=el.dataset.a,d=el.dataset,u=S.uid?me():null;
+  const need=()=>{if(!S.uid){S.scr='welcome';render();return false}return true};
+  switch(a){
+  case 'info':{const i=$('info');if(i.classList.contains('on'))i.classList.remove('on');else{$('infob').innerHTML=infoHtml();i.classList.add('on')}break}
+  case 'reset':lsDel();S=init();$('info').classList.remove('on');render();toast('Demostración reiniciada');break;
+  case 'role':S.role=d.r;S.am='up';go('auth');break;
+  case 'demo':demoLogin(d.r);break;
+  case 'am':S.am=d.m;S.err={};render();break;
+  case 'auth':doAuth();break;
+  case 'back':back();break;
+  case 'tab':S.tab=+d.i;S.nav=[];S.scr='main';save();render();break;
+  case 'cont':S.nav=[];S.scr='main';S.tab=0;save();render();break;
+  case 'det':{const p=S.props.find(x=>x.id===d.i);if(p&&p.owner!==S.uid){p.views=(p.views||0)+1;save()}go('det',{sel:d.i});break}
+  case 'fav':{if(!need())break;const f=u.fav=u.fav||[],i=f.indexOf(d.i);if(i>=0){f.splice(i,1);toast('Quitado de guardados')}else{f.push(d.i);toast('Guardado')}save();softRender();break}
+  case 'filt':go('filt');break;
+  case 'ftype':{const t=S.F.types,i=t.indexOf(d.v);i>=0?t.splice(i,1):t.push(d.v);S.loaded=true;save();softRender();break}
+  case 'fset':S.F[d.k]=isNaN(+d.v)?d.v:+d.v;save();render();break;
+  case 'farr':{const t=S.F[d.k],i=t.indexOf(d.v);i>=0?t.splice(i,1):t.push(d.v);save();render();break}
+  case 'freset':S.F=defF();save();render();break;
+  case 'view':S.F.view=d.v;save();render();break;
+  case 'pin':S.mapSel=d.i;render();break;
+  case 'gal':S.gi+=+d.d;render();break;
+  case 'galset':S.gi=+d.i;render();break;
+  case 'fchip':{const k=d.k,arr=S.f[k]=(S.f[k]||[]).map(String),i=arr.indexOf(String(d.v));i>=0?arr.splice(i,1):arr.push(String(d.v));render();break}
+  case 'chatnew':{if(!need())break;const t=openThread(d.i);t.un[S.role]=0;save();go('thread',{tid:t.id});break}
+  case 'thread':{const t=thById(d.i);if(t){t.un[S.role]=0;save()}go('thread',{tid:d.i});break}
+  case 'csend':{const t=thById(S.tid),i=$('ct');if(t&&i&&i.value.trim()){say(t,i.value);i.value='';render()}break}
+  case 'chipmsg':{const t=thById(S.tid);if(t){say(t,d.t);render()}break}
+  case 'visitnew':if(!need())break;go('visitnew',{sel:d.i,vdate:null,vslot:null,vmode:'presencial'});break;
+  case 'vdate':S.vdate=d.d;S.vslot=null;render();break;
+  case 'vslot':S.vslot=d.s;render();break;
+  case 'vmode':S.vmode=d.m;render();break;
+  case 'vsend':{const l=getL(S.sel);if(!l||!S.vslot)break;const v={id:nid('v'),lid:l.id,eid:S.uid,aid:l.ll,date:S.vdate||addD(1),slot:S.vslot,mode:S.vmode,status:'pendiente',ts:Date.now()};S.visits.push(v);
+    if(isSeed(l.ll))sched(2500+Math.random()*1000,'vdecide',{vid:v.id});else nt(l.ll,`Visita solicitada por ${me().name.split(' ')[0]} (${fmtD(v.date)} ${v.slot})`,{scr:'main',tab:1},'visit');save();back();toast('Visita solicitada. Te avisaremos al confirmarse.');break}
+  case 'vcancel':{const v=visById(d.i);if(v){v.status='cancelada';const o=est()?v.aid:v.eid;if(o&&uById(o))nt(o,'Una visita fue cancelada.',{scr:'main',tab:1},'visit');save();render();toast('Visita cancelada')}break}
+  case 'vconf':{const v=visById(d.i);if(v){v.status='confirmada';if(uById(v.eid))nt(v.eid,`Visita confirmada: ${fmtD(v.date)} a las ${v.slot}`,{scr:'main',tab:3},'visit');save();render();toast('Visita confirmada')}break}
+  case 'vrej':{const v=visById(d.i);if(v){v.status='rechazada';if(uById(v.eid))nt(v.eid,'El arrendador no puede en ese horario. Propón otro.',{scr:'main',tab:3},'visit');save();render();toast('Visita rechazada')}break}
+  case 'vdone':{const v=visById(d.i);if(v){v.status='realizada';save();render();toast('Visita marcada como realizada')}break}
+  case 'checkin':{const v=visById(d.i),l=v&&getL(v.lid);if(!v)break;v.status='realizada';v.nfc=!!(l&&l.nfc);if(uById(v.aid))nt(v.aid,'El estudiante hizo check-in en tu inmueble.',{scr:'main',tab:1},'visit');save();render();toast(v.nfc?'Etiqueta NFC leída: visita verificada':'Llegada registrada');break}
+  case 'reqnew':if(!need())break;{const ex=S.reqs.find(r=>r.lid===d.i&&r.eid===S.uid&&!['cancelada','rechazada'].includes(r.status));if(ex){go('req',{rid:ex.id});break}}go('reqnew',{sel:d.i});break;
+  case 'rsend':newReq(getL(d.i));break;
+  case 'reqopen':go('req',{rid:d.i});break;
+  case 'rcancel':{const r=reqById(d.i);if(r){r.status='cancelada';save();render();toast('Solicitud cancelada')}break}
+  case 'racc':{const r=reqById(d.i);if(!r)break;r.status='aceptada';if(isSim(r.eid))sched(2500,'simaccept',{rid:r.id,who:'est'});else nt(r.eid,'Tu solicitud fue aceptada. Revisa y firma el contrato.',{scr:'req',rid:r.id},'req');save();render();toast('Solicitud aceptada');break}
+  case 'rrej':{const r=reqById(d.i);if(!r)break;r.status='rechazada';r.reason='El arrendador no pudo aceptar tu solicitud en este momento.';if(!isSim(r.eid))nt(r.eid,'Tu solicitud no fue aceptada.',{scr:'req',rid:r.id},'req');save();render();toast('Solicitud rechazada');break}
+  case 'rcod':{const r=reqById(d.i);if(!r)break;r.status='codeudor';if(isSim(r.eid))sched(3000,'simcod',{rid:r.id});else nt(r.eid,'El arrendador pide un codeudor o acudiente.',{scr:'req',rid:r.id},'req');save();render();toast('Codeudor solicitado');break}
+  case 'codform':go('cod',{rid:d.i});break;
+  case 'codsend':{const E={},n=String(S.f.cn||'').trim(),p=String(S.f.cp||'').trim();if(!/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{5,60}$/.test(n))E.cn='Escribe nombre y apellido.';if(!/^3\d{9}$/.test(p))E.cp='Celular de 10 dígitos que inicia en 3.';S.err=E;if(Object.keys(E).length){render();break}
+    const r=reqById(S.rid),l=getL(r.lid);r.cod={n,p:p.slice(0,3)+'•••'+p.slice(-2),rel:fv('cr','Madre/Padre')};r.status='enviada';if(isSeed(l.ll))sched(3000,'decide',{rid:r.id});else nt(l.ll,'El estudiante aportó un codeudor.',{scr:'req',rid:r.id},'req');save();back();toast('Codeudor enviado al arrendador');break}
+  case 'sign':{const r=reqById(d.i);if(!r)break;if(est())r.ce=true;else r.ca=true;const ok=regIfBoth(r);save();render();toast(ok?'Acuerdo registrado':'Firmaste. Esperando a la otra parte.');break}
+  case 'end':{const r=reqById(d.i);if(r)endReq(r);break}
+  case 'copyc':{const r=reqById(d.i);if(r)copy(contractText(r,getL(r.lid)),'Contrato copiado');break}
+  case 'rate':S.rstars=+d.n;render();break;
+  case 'rtag':{const i=S.rtags.indexOf(d.t);i>=0?S.rtags.splice(i,1):S.rtags.push(d.t);render();break}
+  case 'rsubmit':{const r=reqById(d.i);if(!r)break;if(!S.rstars){S.err={rt:'Elige de 1 a 5 estrellas.'};render();break}
+    r.rt=r.rt||{};r.rt[S.role]={n:S.rstars,tags:S.rtags.slice(),txt:String(fv('rtxt','')).trim(),ts:Date.now()};
+    const l=getL(r.lid),tgt=est()?l.ll:r.eid,tu=uById(tgt);if(tu&&!isSim(tgt)){tu.ver.res=true;nt(tgt,'Recibiste una nueva calificación.',{scr:'req',rid:r.id},'req')}
+    if(est()===false&&!isSim(r.eid)&&uById(r.eid))uById(r.eid).ver.res=true;
+    S.rstars=0;S.rtags=[];S.f={};S.err={};save();render();toast('Gracias por calificar');break}
+  case 'notif':go('notif');break;
+  case 'ncl':{const n=S.notifs.find(x=>x.id===d.i);if(n){n.read=true;save();openGo(n.go)}break}
+  case 'nread':myNotifs().forEach(n=>n.read=true);save();render();break;
+  case 'report':S.f.rep=true;render();break;
+  case 'rsend2':delete S.f.rep;save();render();toast('Reporte enviado. Gracias por cuidar la comunidad.');break;
+  case 'share':copy('CampusHogar · '+(getL(d.i)||{title:''}).title+'','Enlace copiado');break;
+  case 'safety':go('safety');break;
+  case 'ver':go('vfy',{vk:d.k,vcap:false,vstep:0,vm:'ocr',vcode:String(Math.floor(100000+Math.random()*900000))});break;
+  case 'vmeth':S.vm=d.m;S.vcap=false;S.vstep=0;S.err={};render();break;
+  case 'vcap':{S.vcap='run';S.vstep=0;S.err={};render();setTimeout(()=>{S.vstep=1;render()},700);setTimeout(()=>{S.vstep=2;S.vcap='done';render()},1400);break}
+  case 'vok':doVfy();break;
+  case 'psaveu':{const n=String(fv('pn',u.name)).trim();if(n.length<3){toast('Escribe un nombre válido');break}u.name=n;if(est()){u.uni=fv('pu',u.uni||'ueb');u.origin=String(fv('po',u.origin||'')).trim()}save();render();toast('Datos guardados');break}
+  case 'ntog':u.np=u.np||{};u.np[d.k]=el.checked;save();break;
+  case 'copydata':S.showData=true;render();copy(userData(u),'Tus datos fueron copiados');break;
+  case 'deldata':S.delAsk='acct';render();break;
+  case 'pdel0':S.delAsk=null;render();break;
+  case 'deldata2':deleteAccount();break;
+  case 'out':S.uid=null;S.role=null;S.scr='welcome';S.nav=[];S.f={};save();render();break;
+  case 'pnew':S.pstep=1;go('pnew',{pstep:1});break;
+  case 'pstepn':if(stepVal()){S.pstep++;render()}else render();break;
+  case 'pstepb':S.pstep=Math.max(1,S.pstep-1);render();break;
+  case 'pcreate':createProp();break;
+  case 'pver':go('pver',{pid:d.i,gstep:null});break;
+  case 'pman':go('pman',{pid:d.i});S.delAsk=null;break;
+  case 'gmode':S.mode=d.m;save();render();break;
+  case 'gsrc':S.src=d.m;save();render();break;
+  case 'geo':doGeo(d.i);break;
+  case 'psave':{const p=S.props.find(x=>x.id===d.i);if(!p)break;const pr=ntoNum(S.f.ep!==undefined?S.f.ep:p.price),ad=ntoNum(S.f.ea!==undefined?S.f.ea:p.adm);if(pr<300000||pr>8000000){S.err={ep:'Entre $300.000 y $8.000.000.'};render();break}p.price=pr;p.adm=ad;p.avail=S.f.ev||p.avail;S.err={};save();render();toast('Cambios guardados');break}
+  case 'pnfc':{const p=S.props.find(x=>x.id===d.i);if(p){p.nfc=!p.nfc;save();render();toast(p.nfc?'Etiqueta NFC activada':'Etiqueta NFC desactivada')}break}
+  case 'ppause':{const p=S.props.find(x=>x.id===d.i);if(p){p.status=p.status==='pausado'?'publicado':'pausado';save();render();toast(p.status==='pausado'?'Anuncio pausado':'Anuncio reanudado')}break}
+  case 'pdel':S.delAsk=d.i;render();break;
+  case 'pdel2':{S.reqs=S.reqs.filter(r=>r.lid!==d.i);S.threads=S.threads.filter(t=>t.lid!==d.i);S.visits=S.visits.filter(v=>v.lid!==d.i);S.props=S.props.filter(p=>p.id!==d.i);S.delAsk=null;const x=me();x.ver.geo=S.props.some(p=>p.owner===x.id&&p.geo&&p.geo.v==='ok')?true:undefined;S.nav=[];S.scr='main';S.tab=0;save();render();toast('Inmueble eliminado');break}
+  }});
+/* ===== Entradas ===== */
+document.addEventListener('input',ev=>{const el=ev.target,id=el.id;if(!id)return;
+  if(el.hasAttribute('data-f')){S.f[id]=el.type==='checkbox'?el.checked:el.value;if(id==='cm'){const l=getL(S.sel);if(l){$('cmv').textContent=el.value;$('cmt').textContent=money((l.price+(l.adm||0))*+el.value)}}}
+  if(id==='sq'){S.F.q=el.value;S.loaded=true;save();softRender()}
+  else if(id==='fpmin'||id==='fpmax'||id==='fdmax'||id==='fsmin'){const v=+el.value;if(id==='fpmin'){S.F.pmin=v;if(S.F.pmax<v){S.F.pmax=v;$('fpmax').value=v}}if(id==='fpmax'){S.F.pmax=v;if(S.F.pmin>v){S.F.pmin=v;$('fpmin').value=v}}if(id==='fdmax')S.F.dmax=v;if(id==='fsmin')S.F.smin=v;
+    $('fpminv').textContent=money(S.F.pmin);$('fpmaxv').textContent=S.F.pmax>=4500000?'Sin tope':money(S.F.pmax);$('fdmaxv').textContent=S.F.dmax>=4000?'Sin tope':dTxt(S.F.dmax);$('fsminv').textContent=S.F.smin||'Cualquiera';const n=filtered().length;$('fcount').textContent='Ver '+n+' resultado'+(n===1?'':'s')}
+  else if(id==='goff'){S.off=+el.value;$('goffv').textContent=S.off+' m'}
+  else if(id==='thr'){me().thr=+el.value;$('thrv').textContent=el.value}});
+document.addEventListener('change',ev=>{const el=ev.target,id=el.id;if(!id)return;
+  if(el.hasAttribute('data-f')&&el.tagName!=='TEXTAREA'){S.f[id]=el.type==='checkbox'?el.checked:el.value;if(['rm','rs'].includes(id))softRender()}
+  if(id==='uni'){me().uni=el.value;S.mapSel=null;save();render()}
+  else if(id==='sort'){S.F.sort=el.value;save();render()}
+  else if(id==='favail'){S.F.avail=el.value;save();render()}
+  else if(id==='fver'){S.F.ver=el.checked;save();render()}
+  else if(id==='facc'){S.F.acc=el.checked;save();render()}
+  else if(id==='thr'||id==='goff'||id==='fpmin'||id==='fpmax'||id==='fdmax'||id==='fsmin')save()});
+document.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&ev.target.id==='ct'){ev.preventDefault();const t=thById(S.tid),i=ev.target;if(t&&i.value.trim()){say(t,i.value);i.value='';render()}}});
+render();setInterval(tick,600);
+
+</script>
+</html>
