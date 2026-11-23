@@ -12,6 +12,8 @@ Prototipo en línea: https://jfvalderramabosque.github.io/campushogar/
 - Alejandra Valenttina Ramírez Chacón
 - Juan Felipe Valderrama Peñaloza
 
+Docente: Carlos Hernan Medina Ayala
+
  Qué hace
 
 Estudiante
